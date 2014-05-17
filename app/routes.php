@@ -16,6 +16,7 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
+
 Route::get('/game', array('before' => 'auth.basic', function()
 {
 	echo 'test';
@@ -45,35 +46,7 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
         $provider = $socialAuth->authenticate("Facebook");
         // fetch user profile
         $userProfile = $provider->getUserProfile();
-        /*
-        Hybrid_User_Profile Object
-(
-    [identifier] => 10152413695728850
-    [webSiteURL] => 
-    [profileURL] => https://www.facebook.com/app_scoped_user_id/10152413695728850/
-    [photoURL] => https://graph.facebook.com/10152413695728850/picture?width=150&height=150
-    [displayName] => Jon Hazan
-    [description] => 
-    [firstName] => Jon
-    [lastName] => Hazan
-    [gender] => male
-    [language] => 
-    [age] => 
-    [birthDay] => 
-    [birthMonth] => 
-    [birthYear] => 
-    [email] => hazanjon@hotmail.com
-    [emailVerified] => hazanjon@hotmail.com
-    [phone] => 
-    [address] => 
-    [country] => 
-    [region] => 
-    [city] => 
-    [zip] => 
-    [username] => 
-    [coverInfoURL] => https://graph.facebook.com/10152413695728850?fields=cover
-)
-        */
+       
 //Check if user has record already
         if (Auth::attempt(array('email' => $userProfile->email, 'password' => '')))
 		{
@@ -105,3 +78,6 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
     echo "<pre>" . print_r( $userProfile, true ) . "</pre><br />";
     //return Redirect::to('/');
 }));
+
+Route::get('start', 'ServerController@createGame');
+
