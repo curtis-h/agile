@@ -18,7 +18,7 @@ Route::get('/', function()
 
 Route::get('start', 'ServerController@createGame');
 Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
-Route::any('api/fail/{user_id}/{value}', 'ServerController@failEvent');
+Route::any('api/fail/{user_id}/{control_id}', 'ServerController@failEvent');
 
 
 Route::get('/game', array('before' => 'auth', function()

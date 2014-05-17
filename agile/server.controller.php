@@ -1,10 +1,15 @@
 <?php
 class ServerController extends BaseController {
-    
+    /**
+     * events that we can send to the clients
+     * Thermometer : ID 1
+     * Button : ID 2
+     * Slider : ID 3
+     */
     protected $eventTypes = array(
         'Thermometer',
-        'Slider',
         'Button',
+        'Slider',
     );
     
 
@@ -12,6 +17,7 @@ class ServerController extends BaseController {
      * run initial game setup
      */
     public function createGame() {
+        $this->setupPusher();
         $this->createEvent();
     }
 
@@ -27,6 +33,11 @@ class ServerController extends BaseController {
         // push to client
         // push to display
         
+        $this->pusher->trigger(
+            Config::get('app.pusher_channel_name'), 
+            'event_create', 
+            array('message' => 'hello world')
+        );
     }
     
     /**
@@ -37,6 +48,8 @@ class ServerController extends BaseController {
         $control_id = Route::input('control_id');
         $value      = Route::input('value');
         
+        
+        error_log("USER: {$user_id}, CONTROL: {$control_id}, VALUE: {$value}");
         // run check for this user and this control
     }
     
@@ -49,6 +62,7 @@ class ServerController extends BaseController {
         $user_id    = Route::input('user_id');
         $control_id = Route::input('control_id');
         
+        // this needs to update the event db
     }
     
     
@@ -66,7 +80,11 @@ class ServerController extends BaseController {
      * create the pusher connection
      */
     protected function setupPusher() {
-        //$this->pusher = new Pusher(Config::get('pusher_app_key'), Config::get('pusher_app_secret'), Config::get('pusher_app_id')');
+        $this->pusher = new Pusher(
+            Config::get('app.pusher_app_key'), 
+            Config::get('app.pusher_app_secret'), 
+            Config::get('app.pusher_app_id')
+        );
         
     }
     

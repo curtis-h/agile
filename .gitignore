@@ -6,5 +6,7 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
+readme.md
+README.md
 app/config/database.php
 app/config/hybridauth.php
