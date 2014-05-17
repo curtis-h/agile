@@ -37,7 +37,12 @@ Route::filter('auth', function()
 {
 	//print_R(Auth::check());
 	//exit();
-	if (!Auth::check()) return Redirect::to('social');
+	if (!Auth::check()){
+		if(getCurrentRoute()->getPath() != 'getphone')
+			return Redirect::to('social');
+		else
+			return Redirect::to('getphone');
+	}
 });
 
 

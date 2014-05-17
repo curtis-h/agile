@@ -109,3 +109,22 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
     //-- return Redirect::to('/game');
     return Redirect::to('/controls');
 }));
+
+Route::get('getphone/{action?}', array("as" => "getphone", "before" => "auth", function($action = "")
+{
+    // check URL segment
+    if ($action == "add") {
+        if($_REQUEST['number'] != ''){
+			$user = Auth::user();
+
+			$user->phone = $_REQUEST['number'];
+
+			$user->save();
+			
+			return Redirect::to('/controls');
+        }
+    }
+
+
+    echo 'Add Phone form goes here';
+}));
