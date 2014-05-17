@@ -1,0 +1,105 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,900);
+
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	color: #788288;
+	background-color: #F2F4F8;
+	-webkit-font-smoothing: antialiased;
+	line-height: 1.53846154;
+}
+
+body, html {
+	overflow-x: hidden;
+}
+
+/*# Top Bar #*/
+#topBar {
+	background: #34495e;
+	color: #FFF;
+	height: 80px;
+}
+
+#topBar .user-person {
+	line-height: 80px;
+	font-size: 30px;
+}
+
+#topBar .team-health {
+	line-height: 80px;
+	font-size: 40px;
+	text-align: right;
+	color: #c0392b;
+}
+
+/*# Message System #*/
+.slabtexted .slabtext{display:-moz-inline-box;display:inline-block;white-space:nowrap}.slabtextinactive .slabtext{display:inline;white-space:normal;font-size:1em !important;letter-spacing:inherit !important;word-spacing:inherit !important;*letter-spacing:0 !important;*word-spacing:0 !important;}.slabtextdone .slabtext{display:block;line-height:0.9;}
+
+#messageHero {
+	overflow-y: scroll;
+	text-align: center;
+	line-height: 110%;
+	font-size: 30px;	
+	color: #2c3e50;
+	background: #2ecc71;
+	padding: 20px;
+	display: none;
+	height: 100%;
+}
+
+#messageHero #mm {
+	height: 100%;
+	max-height: 100%;
+}
+
+#controller {
+	text-align: center;
+	padding: 20px;
+}
+
+#controller h2 {
+	line-height: 40px;
+	font-size: 40px;
+}
+
+/*# Login #*/
+#login {
+	padding: 30px;	
+}
+
+.login-facebook {
+	background: #3b5998;
+	color: #FFF;
+	font-size: 20px;
+	padding: 20px;
+	border-radius: 5px;
+	margin: 30px 0;
+}
+
+.login-facebook i {
+	margin-right: 30px;	
+}
+
+.control-sep {
+	width: 100%;
+	margin: 30px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+
+/*# HIDE CONTROLLERS TO START #*/
+#control-dial, #control-button, #control-radio {
+	display: block;
+}
+
+#radios {
+	margin: 50px auto;
+}

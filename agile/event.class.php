@@ -4,7 +4,7 @@ class BaseEvent extends Eloquent {
 	private $publicAccess = true;
 
 	private $event;
-	private $successValue = 1;
+	private $successValueMax = 1;
 
 	protected $table = 'events';
 	protected $eventType = 'base';
@@ -37,15 +37,15 @@ class BaseEvent extends Eloquent {
         		'user_id' => $user_id
         	);
 
-        return $this::create($event);
+        return $this->create($event);
     }
 
     public function getEvent($id=0){
-    	return $this:findOrFail($id);
+    	return $this->findOrFail($id);
     }
 
     public function checkEventSuccess($id,$success){
-    	$event = $this:find($id);
+    	$event = $this->find($id);
 
     	return ($event->success==$success)?true:false;
     }
@@ -61,11 +61,15 @@ class BaseEvent extends Eloquent {
     }
 
     public function getSuccessValue(){
-    	return rand(0,$this->successValue);
+    	return rand(0,$this->successValueMax);
     }
 
     public function getEventType(){
     	return $this->eventType;
+    }
+
+    public function deleteEvent($id=0){
+    	return $this->delete($id);
     }
 }
 

@@ -12,24 +12,25 @@ class ServerController extends BaseController {
         'Slider',
     );
     
+    protected $pusher;
 
     /**
      * run initial game setup
      */
     public function createGame() {
-        $this->setupPusher();
-        $this->createEvent();
+        
     }
 
     /**
      * create a random event assigned to a user
      */
     public function createEvent() {
+        $this->setupPusher();
+        
         // get random user
-        // create event
-        $randomEvent    = $this->getEventType();
-        $eventModelName = $randomEvent.'Event';
-        $eventModel     = new $eventModelName();
+        User::all();
+        
+        $event = $this->getRandomEvent();
         // push to client
         // push to display
         
@@ -51,6 +52,7 @@ class ServerController extends BaseController {
         
         error_log("USER: {$user_id}, CONTROL: {$control_id}, VALUE: {$value}");
         // run check for this user and this control
+        // if success needs to tell main screen
     }
     
     
@@ -65,16 +67,20 @@ class ServerController extends BaseController {
         // this needs to update the event db
     }
     
-    
     /**
-     * handle user login
-     * not sure with this one as might be using pusher
+     * create 3 random controls for the user
      */
-    public function login() {
+    public function createUserControls($user_id) {
+        $controls = array();
         
+        for($i=0; $i<3; $i++) {
+            if($control = $this->getRandomControls($user_id)) {
+                $controls[] = $control;
+            }
+        }
+        
+        return $controls;
     }
-    
-    protected $pusher;
     
     /**
      * create the pusher connection
@@ -102,4 +108,33 @@ class ServerController extends BaseController {
         return $this->eventTypes[rand(0, count($this->eventTypes) -1)];
     }
     
+    /**
+     * create and return a random event assigned to a user
+     */
+    protected function getRandomEvent($user_id=false) {
+        $event = false;
+        
+        if(!empty($user_id)) {
+            $randomEvent    = $this->getEventType();
+            $eventModelName = $randomEvent.'Event';
+            $event = $eventModelName(false, $user_id);
+        }
+        
+        return $event;
+    }
+    
+    /*
+     * get a random controller
+     */
+    protected function getRandomControls($user_id=false) {
+        $control = false;
+        
+        if(!empty($user_id)) {
+            $type        = $this->getEventType();
+            $controlName = "{$type}Control";
+            $control     = new $controlName($user_id);
+        }
+        
+        return $control;
+    }
 }
