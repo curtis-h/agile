@@ -192,6 +192,6 @@ return array(
     'pusher_app_id'       => '75202',
     'pusher_app_key'      => 'd87b2847c2e28a530cde',
     'pusher_app_secret'   => 'b7b17a3b8307fd5dd9c8',
-    'pusher_channel_name' => '',
+    'pusher_channel_name' => 'roboto_event',
 	'event_timeout'       => '10',
 );

@@ -2,13 +2,18 @@
 class ServerController extends BaseController {
     
     protected $eventTypes = array(
-            'thermometer',
-            'slider',
-            'button',
-        );
+        'Thermometer',
+        'Slider',
+        'Button',
+    );
+    
 
-    private getEventType(){
-        return $eventTypes[rand(0,count($eventTypes))];
+    /**
+     * run initial game setup
+     */
+    public function createGame() {
+        $this->setupPusher();
+        $this->createEvent();
     }
 
     /**
@@ -17,28 +22,41 @@ class ServerController extends BaseController {
     public function createEvent() {
         // get random user
         // create event
-        $randomEvent = $this->getEventType();
+        $randomEvent    = $this->getEventType();
         $eventModelName = $randomEvent.'Event';
-        $eventModel = new $eventModelName();
+        $eventModel     = new $eventModelName();
         // push to client
         // push to display
         
-        // return something for now
+        $this->pusher->trigger(
+            Config::get('app.pusher_channel_name'), 
+            'event_create', 
+            array('message' => 'hello world')
+        );
     }
     
     /**
-     * function to call when an event is completed
+     * used to decide if updated value is correct for event
      */
-    public function completeEvent() {
-        // mark an event as completed
+    public function checkEvent() {
+        $user_id    = Route::input('user_id');
+        $control_id = Route::input('control_id');
+        $value      = Route::input('value');
+        
+        // run check for this user and this control
     }
+    
     
     /**
      * call this when an event isn't completed
+     * triggered from client side
      */
     public function failEvent() {
-        // maybe use this when they enter the wrong value?
+        $user_id    = Route::input('user_id');
+        $control_id = Route::input('control_id');
+        
     }
+    
     
     /**
      * handle user login
@@ -48,21 +66,32 @@ class ServerController extends BaseController {
         
     }
     
-    /**
-     * run initial game setup
-     */
-    public function createGame() {
-        
-    }
-    
     protected $pusher;
     
     /**
      * create the pusher connection
      */
     protected function setupPusher() {
-        //$this->pusher = new Pusher(Config::get('pusher_app_key'), Config::get('pusher_app_secret'), Config::get('pusher_app_id')');
+        $this->pusher = new Pusher(
+            Config::get('app.pusher_app_key'), 
+            Config::get('app.pusher_app_secret'), 
+            Config::get('app.pusher_app_id')
+        );
         
+    }
+    
+    /**
+     * function to call when an event is completed
+     */
+    protected function completeEvent() {
+        // mark an event as completed
+    }
+    
+    /**
+     * get a random event
+     */
+    protected function getEventType() {
+        return $this->eventTypes[rand(0, count($this->eventTypes) -1)];
     }
     
 }
