@@ -5,6 +5,8 @@ class BaseControl extends Eloquent {
     protected $name;
     protected $value;
     protected $maxValue;
+
+    protected $table = "controls";
     
     public function __construct($user_id=false) {
         if($user_id) {
