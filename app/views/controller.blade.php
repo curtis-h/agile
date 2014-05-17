@@ -23,7 +23,8 @@
 	<div id="topBar">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-8 user-person">{{ $user->firstname }}</div>
+				<div class="col-xs-3 user-person"><img style="height:60px; margin-top: -8px;" src="{{ $user->picture }}"></div>
+				<div class="col-xs-5 user-person">{{ $user->firstname }}</div>
   				<div class="col-xs-4 team-health">{{ $base_health }}</div>
 			</div>
 		</div>
