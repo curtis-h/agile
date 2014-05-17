@@ -12,6 +12,7 @@ class ServerController extends BaseController {
      * run initial game setup
      */
     public function createGame() {
+        $this->setupPusher();
         $this->createEvent();
     }
 
@@ -27,6 +28,11 @@ class ServerController extends BaseController {
         // push to client
         // push to display
         
+        $this->pusher->trigger(
+            Config::get('app.pusher_channel_name'), 
+            'event_create', 
+            array('message' => 'hello world')
+        );
     }
     
     /**
@@ -66,7 +72,11 @@ class ServerController extends BaseController {
      * create the pusher connection
      */
     protected function setupPusher() {
-        //$this->pusher = new Pusher(Config::get('pusher_app_key'), Config::get('pusher_app_secret'), Config::get('pusher_app_id')');
+        $this->pusher = new Pusher(
+            Config::get('app.pusher_app_key'), 
+            Config::get('app.pusher_app_secret'), 
+            Config::get('app.pusher_app_id')
+        );
         
     }
     
