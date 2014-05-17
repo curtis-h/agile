@@ -54,35 +54,50 @@
 			
 			foreach($controls AS $n => $con) {
 				
-				echo $n;
+				switch($con['controlType']) {
+					case 1:
+						?>
+						<div id="control-dial" class="control-sep">
+							<input type="text" value="75" class="dial" rel="1">
+							<h2>Awesome Thermomenter V2</h2>
+						</div>
+						<?php
+					break;
+					case 2:
+						?>
+						<div id="control-button" class="control-sep" style="display: block;">
+							<div class="form-group">
+								<input type="submit" class="btn btn-danger btn-block" rel="2" value="Fire Up" />
+								<h2>The Furnace</h2>
+							</div>
+						</div>
+						<?php
+					break;
+					case 3:
+						?>
+						<div id="control-radio" class="control-sep" style="display: block;">
+							<div id="radios" rel="3" style="text-align: center;">
+							    <input id="option1" name="options" type="radio" class="radios">
+							    <label for="option1">1</label>					 
+							    <input id="option2" name="options" type="radio" class="radios">
+							    <label for="option2">2</label>					 
+							    <input id="option3" name="options" type="radio" checked class="radios">
+							    <label for="option3">3</label>					 
+							    <input id="option4" name="options" type="radio" class="radios">
+							    <label for="option4">4</label>					 
+							    <input id="option5" name="options" type="radio" class="radios">
+							    <label for="option5">5<label>					 
+							</div>
+							<h2>Potentiometer Array</h2>
+						</div>
+						<?php
+					break;
+				}
 			}
 			
 			?>
-				<div id="control-dial" class="control-sep">
-					<input type="text" value="75" class="dial" rel="1">
-					<h2>Awesome Thermomenter V2</h2>
-				</div>
-				<div id="control-button" class="control-sep" style="display: block;">
-					<div class="form-group">
-						<input type="submit" class="btn btn-danger btn-block" rel="2" value="Fire Up" />
-						<h2>The Furnace</h2>
-					</div>
-				</div>				
-				<div id="control-radio" class="control-sep" style="display: block;">
-					<div id="radios" rel="3" style="text-align: center;">
-					    <input id="option1" name="options" type="radio" class="radios">
-					    <label for="option1">1</label>					 
-					    <input id="option2" name="options" type="radio" class="radios">
-					    <label for="option2">2</label>					 
-					    <input id="option3" name="options" type="radio" checked class="radios">
-					    <label for="option3">3</label>					 
-					    <input id="option4" name="options" type="radio" class="radios">
-					    <label for="option4">4</label>					 
-					    <input id="option5" name="options" type="radio" class="radios">
-					    <label for="option5">5<label>					 
-					</div>
-					<h2>Potentiometer Array</h2>
-				</div>
+								
+				
 			</div>
 		</div>
 	</div>

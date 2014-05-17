@@ -5,6 +5,7 @@ class BaseControl extends Eloquent {
     public $name;
     public $value;
     public $maxValue;
+    public $controlType;
 
     protected $table = "controls";
 

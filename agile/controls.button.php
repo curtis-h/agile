@@ -6,6 +6,7 @@ class ButtonControl extends BaseControl {
         $this->getName();
         // make a random value
         $this->randomValue();
+        $this->controlType = 2;
         // save to db
     }
     
