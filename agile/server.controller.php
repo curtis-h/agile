@@ -2,13 +2,17 @@
 class ServerController extends BaseController {
     
     protected $eventTypes = array(
-            'thermometer',
-            'slider',
-            'button',
-        );
+        'Thermometer',
+        'Slider',
+        'Button',
+    );
+    
 
-    private getEventType(){
-        return $eventTypes[rand(0,count($eventTypes))];
+    /**
+     * run initial game setup
+     */
+    public function createGame() {
+        $this->createEvent();
     }
 
     /**
@@ -17,9 +21,9 @@ class ServerController extends BaseController {
     public function createEvent() {
         // get random user
         // create event
-        $randomEvent = $this->getEventType();
+        $randomEvent    = $this->getEventType();
         $eventModelName = $randomEvent.'Event';
-        $eventModel = new $eventModelName();
+        $eventModel     = new $eventModelName();
         // push to client
         // push to display
         
@@ -56,13 +60,6 @@ class ServerController extends BaseController {
         
     }
     
-    /**
-     * run initial game setup
-     */
-    public function createGame() {
-        
-    }
-    
     protected $pusher;
     
     /**
@@ -78,6 +75,13 @@ class ServerController extends BaseController {
      */
     protected function completeEvent() {
         // mark an event as completed
+    }
+    
+    /**
+     * get a random event
+     */
+    protected function getEventType() {
+        return $this->eventTypes[rand(0, count($this->eventTypes) -1)];
     }
     
 }
