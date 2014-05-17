@@ -7,12 +7,19 @@ class ServerController extends BaseController {
             'button',
         );
 
+    private getEventType(){
+        return $eventTypes[rand(0,count($eventTypes))];
+    }
+
     /**
      * create a random event assigned to a user
      */
     public function createEvent() {
         // get random user
         // create event
+        $randomEvent = $this->getEventType();
+        $eventModelName = $randomEvent.'Event';
+        $eventModel = new $eventModelName();
         // push to client
         // push to display
         
