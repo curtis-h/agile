@@ -35,7 +35,9 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	//print_R(Auth::check());
+	//exit();
+	if (!Auth::check()) return Redirect::to('social');
 });
 
 
