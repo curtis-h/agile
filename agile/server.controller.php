@@ -18,14 +18,15 @@ class ServerController extends BaseController {
      * run initial game setup
      */
     public function createGame() {
-        $this->setupPusher();
-        $this->createEvent();
+        
     }
 
     /**
      * create a random event assigned to a user
      */
     public function createEvent() {
+        $this->setupPusher();
+        
         // get random user
         User::all();
         
@@ -51,6 +52,7 @@ class ServerController extends BaseController {
         
         error_log("USER: {$user_id}, CONTROL: {$control_id}, VALUE: {$value}");
         // run check for this user and this control
+        // if success needs to tell main screen
     }
     
     
@@ -68,18 +70,16 @@ class ServerController extends BaseController {
     /**
      * create 3 random controls for the user
      */
-    public function createUserControls() {
-        $events  = array();
-        // I dont think we get the user_id this way
-        $user_id = Route::input('user_id');
+    public function createUserControls($user_id) {
+        $controls = array();
         
         for($i=0; $i<3; $i++) {
-            if($event = $this->getRandomControls()) {
-                $events[] = $event;
+            if($control = $this->getRandomControls($user_id)) {
+                $controls[] = $control;
             }
         }
         
-        return $events;
+        return $controls;
     }
     
     /**
@@ -126,8 +126,15 @@ class ServerController extends BaseController {
     /*
      * get a random controller
      */
-    protected function getRandomControls() {
+    protected function getRandomControls($user_id=false) {
+        $control = false;
         
+        if(!empty($user_id)) {
+            $type        = $this->getEventType();
+            $controlName = "{$type}Control";
+            $control     = $controlName($user_id);
+        }
+        
+        return $control;
     }
-    
 }
