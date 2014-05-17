@@ -40,17 +40,24 @@ public $restful = true;
 
 	public function post_index() 
 	{
-
+		return $this->get_index($_POST['id']);
 	}
 
-	public function put_index() 
+	public function delete_index($id) 
 	{
-
-	}
-
-	public function delete_index($id = null) 
-	{
-
+		$currentUser = Auth::user();
+		
+		if($currentUser && $currentUser->id === 1 && $id !== 1){
+			User::destroy($id);
+			$json = new stdClass();
+			$json->success = true;
+		}else{
+			$json = new stdClass();
+			$json->success = false;
+			$json->error = "Insufficient Privileges";
+		}
+		
+		return json_encode($json, JSON_NUMERIC_CHECK);
 	} 
      
 }
