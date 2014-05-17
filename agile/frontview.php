@@ -13,7 +13,7 @@ class FrontSiteController extends BaseController {
 	public function showIndex() {		
 		if (Auth::check()) {			
 			//-- User is logged in - show controls
-			echo "CONTROLS";			
+			return Redirect::to('controls');		
 		} else {			
     		//-- Show the Login Page
     		return View::make('login');    		
@@ -24,10 +24,11 @@ class FrontSiteController extends BaseController {
     
     	//-- Need to decide what controls we are using
     	
-    	//-- Who are we?
+    	//-- Get the current Base health
+    	$health = 100;    	
     	
     	//-- Show Page
-    	return View::make('controller');
+    	return View::make('controller', array('user' => Auth::user(), 'base_health' => $health));
     }
     
 }
