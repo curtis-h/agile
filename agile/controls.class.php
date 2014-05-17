@@ -47,8 +47,13 @@ class BaseControl extends Eloquent {
 
     }
 
-    public statis function getRandomUserControl($user_id){
-        return 1;
+    public static function getRandomUserControl($user_id){
+        $controlObject = $this::where('user_id',$user_id)
+            ->where('game_id',Game::getCurrentGame());
+        if($controlObject) {
+            return (int)$controlObject->type_id;
+        }
+        return false; 
     }
 }
 ?>
