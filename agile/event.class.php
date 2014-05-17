@@ -1,8 +1,10 @@
 <?php 
 class BaseEvent extends Eloquent {
 
+	private $publicAccess = true;
+
 	private $event;
-	private $successValue = 1;
+	private $successValueMax = 1;
 
 	protected $table = 'events';
 	protected $eventType = 'base';
@@ -10,22 +12,29 @@ class BaseEvent extends Eloquent {
     /*
      * C'tor
      */
-    public function __construct($id=0) {
+    public function __construct($id=0,$user_id=0) {
         // set up randomness
     	if($id) {
     		return $this->getEvent($id);
     	}
     	else {
-    		return $this->createEvent();
+    		return $this->createEvent($user_id);
     	}
     }
 
-    public function createEvent(){
+    private function checkUser(){
+    	if($this->publicAccess && Auth::check()) {
+    		throw new Exception('Must be logged into login.');
+    	}
+    }
 
-        $event = array(
+    public function createEvent($user_id=0){
+
+    	$event = array(
         		'type' => $this->getEventType(),
         		'name' => $this->getName(),
-        		'success' => $this->getSuccessValue()
+        		'success' => $this->getSuccessValue(),
+        		'user_id' => $user_id
         	);
 
         return $this::create($event);
@@ -52,11 +61,15 @@ class BaseEvent extends Eloquent {
     }
 
     public function getSuccessValue(){
-    	return $this->successValue;
+    	return rand(0,$this->successValueMax);
     }
 
     public function getEventType(){
     	return $this->eventType;
+    }
+
+    public function deleteEvent($id=0){
+    	return $this::delete($id);
     }
 }
 

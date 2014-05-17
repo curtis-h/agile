@@ -20,6 +20,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password');
 	protected $primaryKey = 'id';
 	protected $fillable = array('fb_id', 'email', 'firstname', 'lastname');
+	
+	public function achievements()
+    {
+        return $this->belongsToMany('Achievement', 'achievements_users');
+    }
+	
 	/**
 	 * Get the unique identifier for the user.
 	 *
