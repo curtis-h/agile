@@ -23,8 +23,20 @@ Route::any('api/fail/{user_id}/{control_id}', 'ServerController@failEvent');
 
 Route::get('/game', array('before' => 'auth', function()
 {
-	echo 'test';
+	echo 'a';
 	exit();
+}));
+
+Route::get('/profile', array('before' => 'auth', function()
+{
+	//@TODO: Jake to create awesome page here :)
+	$user = Auth::user();
+	
+	echo 'Name: '.$user->firstname.' '.$user->lastname.'<br><br>';
+	echo 'Achievements:<br>';
+	
+	foreach ($user->achievements as $achievement)
+		echo $achievement->name.'<br>';
 }));
 
 Route::get('social/{action?}', array("as" => "hybridauth", function($action = "")
