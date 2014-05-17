@@ -24,6 +24,7 @@ class FrontSiteController extends BaseController {
     
     	//-- Need to decide what controls we are using
     	$ss = new ServerController();
+    	$ss->createUser(Auth::user()->id);
     	$array = $ss->createUserControls(Auth::user()->id);
     	
     	//-- Get the current Base health
