@@ -1,7 +1,7 @@
 <?php 
 class ButtonControl extends BaseControl {
     
-    public function create($user_id) {
+    public function createControl() {
         // make a random name
         $this->getName();
         // make a random value

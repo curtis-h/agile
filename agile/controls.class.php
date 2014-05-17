@@ -1,15 +1,15 @@
 <?php 
 class BaseControl extends Eloquent {
     
-    protected $user_id;
-    protected $name;
-    protected $value;
-    protected $maxValue;
+    public $user_id;
+    public $name;
+    public $value;
+    public $maxValue;
     
     public function __construct($user_id=false) {
         if($user_id) {
             $this->user_id = $user_id;
-            $this->create();
+            $this->createControl();
         }
     }
     

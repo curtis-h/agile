@@ -132,7 +132,7 @@ class ServerController extends BaseController {
         if(!empty($user_id)) {
             $type        = $this->getEventType();
             $controlName = "{$type}Control";
-            $control     = $controlName($user_id);
+            $control     = new $controlName($user_id);
         }
         
         return $control;

@@ -1,7 +1,7 @@
 <?php 
 class ThermometerControl extends BaseControl {
     
-    public function create($user_id) {
+    public function createControl() {
         // make a random name
         $this->getName();
         $this->maxValue = 100;

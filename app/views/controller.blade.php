@@ -38,6 +38,15 @@
 		</div>			
 	</div>
 	
+	<pre>
+	
+	<?php
+	
+	print_r($controls);
+	
+	?>
+	</pre>
+	
 	<div id="controller">
 		<div class="container">
 			<div class="row">

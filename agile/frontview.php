@@ -23,12 +23,14 @@ class FrontSiteController extends BaseController {
     public function showController() {
     
     	//-- Need to decide what controls we are using
+    	$ss = new ServerController();
+    	$array = $ss->createUserControls(Auth::user()->id);
     	
     	//-- Get the current Base health
     	$health = 100;    	
     	
     	//-- Show Page
-    	return View::make('controller', array('user' => Auth::user(), 'base_health' => $health));
+    	return View::make('controller', array('user' => Auth::user(), 'base_health' => $health, 'controls' => $array));
     }
     
 }
