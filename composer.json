@@ -6,7 +6,9 @@
 	"require": {
 		"laravel/framework": "4.1.*",
 		"pusher/pusher-php-server": "dev-master",
-		"twilio/sdk": "dev-master"
+		"twilio/sdk": "dev-master",
+		"pda/pheanstalk": "dev-master",
+		"fzaninotto/faker": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
