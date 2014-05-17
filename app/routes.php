@@ -16,11 +16,11 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('/test', function()
+Route::get('/game', array('before' => 'auth.basic', function()
 {
 	echo 'test';
 	exit();
-});
+}));
 
 Route::get('social/{action?}', array("as" => "hybridauth", function($action = "")
 {
@@ -45,6 +45,53 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
         $provider = $socialAuth->authenticate("Facebook");
         // fetch user profile
         $userProfile = $provider->getUserProfile();
+        /*
+        Hybrid_User_Profile Object
+(
+    [identifier] => 10152413695728850
+    [webSiteURL] => 
+    [profileURL] => https://www.facebook.com/app_scoped_user_id/10152413695728850/
+    [photoURL] => https://graph.facebook.com/10152413695728850/picture?width=150&height=150
+    [displayName] => Jon Hazan
+    [description] => 
+    [firstName] => Jon
+    [lastName] => Hazan
+    [gender] => male
+    [language] => 
+    [age] => 
+    [birthDay] => 
+    [birthMonth] => 
+    [birthYear] => 
+    [email] => hazanjon@hotmail.com
+    [emailVerified] => hazanjon@hotmail.com
+    [phone] => 
+    [address] => 
+    [country] => 
+    [region] => 
+    [city] => 
+    [zip] => 
+    [username] => 
+    [coverInfoURL] => https://graph.facebook.com/10152413695728850?fields=cover
+)
+        */
+//Check if user has record already
+        if (Auth::attempt(array('email' => $userProfile->email, 'password' => '')))
+		{
+		    // The user is active, not suspended, and exists.
+		    
+			echo 'User Logged In';
+		}else{			
+			$details = array(
+				'email' => $userProfile->emailVerified,	
+				'firstname' => $userProfile->firstName,	
+				'lastname' => $userProfile->lastName,	
+				'fb_id' => $userProfile->identifier,	
+			);
+			
+			$user = User::create($details);
+			
+			Auth::attempt(array('email' => $userProfile->email, 'password' => ''));
+		}
     }
 
     catch(Exception $e) {
@@ -56,4 +103,5 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
     echo "Connected with: <b>{$provider->id}</b><br />";
     echo "As: <b>{$userProfile->displayName}</b><br />";
     echo "<pre>" . print_r( $userProfile, true ) . "</pre><br />";
+    //return Redirect::to('/');
 }));
