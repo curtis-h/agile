@@ -1,10 +1,15 @@
 <?php
 class ServerController extends BaseController {
-    
+    /**
+     * events that we can send to the clients
+     * Thermometer : ID 1
+     * Button : ID 2
+     * Slider : ID 3
+     */
     protected $eventTypes = array(
         'Thermometer',
-        'Slider',
         'Button',
+        'Slider',
     );
     
 
@@ -43,6 +48,8 @@ class ServerController extends BaseController {
         $control_id = Route::input('control_id');
         $value      = Route::input('value');
         
+        
+        error_log("USER: {$user_id}, CONTROL: {$control_id}, VALUE: {$value}");
         // run check for this user and this control
     }
     
