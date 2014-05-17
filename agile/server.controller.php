@@ -23,22 +23,30 @@ class ServerController extends BaseController {
         // push to client
         // push to display
         
-        // return something for now
     }
     
     /**
-     * function to call when an event is completed
+     * used to decide if updated value is correct for event
      */
-    public function completeEvent() {
-        // mark an event as completed
+    public function checkEvent() {
+        $user_id    = Route::input('user_id');
+        $control_id = Route::input('control_id');
+        $value      = Route::input('value');
+        
+        // run check for this user and this control
     }
+    
     
     /**
      * call this when an event isn't completed
+     * triggered from client side
      */
     public function failEvent() {
-        // maybe use this when they enter the wrong value?
+        $user_id    = Route::input('user_id');
+        $control_id = Route::input('control_id');
+        
     }
+    
     
     /**
      * handle user login
@@ -63,6 +71,13 @@ class ServerController extends BaseController {
     protected function setupPusher() {
         //$this->pusher = new Pusher(Config::get('pusher_app_key'), Config::get('pusher_app_secret'), Config::get('pusher_app_id')');
         
+    }
+    
+    /**
+     * function to call when an event is completed
+     */
+    protected function completeEvent() {
+        // mark an event as completed
     }
     
 }
