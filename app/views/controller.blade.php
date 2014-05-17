@@ -50,6 +50,14 @@
 	<div id="controller">
 		<div class="container">
 			<div class="row">
+			<?php
+			
+			foreach($controls AS $n => $con) {
+				
+				echo $n;
+			}
+			
+			?>
 				<div id="control-dial" class="control-sep">
 					<input type="text" value="75" class="dial" rel="1">
 					<h2>Awesome Thermomenter V2</h2>

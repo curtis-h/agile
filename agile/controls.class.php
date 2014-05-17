@@ -5,7 +5,9 @@ class BaseControl extends Eloquent {
     public $name;
     public $value;
     public $maxValue;
-    
+
+    protected $table = "controls";
+
     public function __construct($user_id=false) {
         if($user_id) {
             $this->user_id = $user_id;
