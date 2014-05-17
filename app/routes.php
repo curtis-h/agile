@@ -17,8 +17,11 @@ Route::get('/', 		'FrontSiteController@showIndex');
 //-- Creates user controls
 Route::get('start', 'ServerController@createGame');
 
-Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
-Route::any('api/fail/{user_id}/{value}', 'ServerController@failEvent');
+//-- Main UI
+Route::any('front', 	'FrontSiteController@showUI');
+
+// Misc
+Route::any('api/createEvent', 'ServerController@createEvent');
 
 Route::group(array('before' => 'auth'), function() {
 	

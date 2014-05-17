@@ -20,6 +20,10 @@ class ServerController extends BaseController {
     public function createGame() {
         
     }
+    
+    public function getGame() {
+        return 100;
+    }
 
     /**
      * create a random event assigned to a user
@@ -28,16 +32,15 @@ class ServerController extends BaseController {
         $this->setupPusher();
         
         // get random user
-        User::all();
-        
-        $event = $this->getRandomEvent();
+        $user  = User::orderBy(DB::raw('RAND()'))->get();
+        $event = $this->getRandomEvent($user->id);
         // push to client
         // push to display
         
         $this->pusher->trigger(
             Config::get('app.pusher_channel_name'), 
             'event_create', 
-            array('message' => 'hello world')
+            $event
         );
     }
     
@@ -115,8 +118,10 @@ class ServerController extends BaseController {
         $event = false;
         
         if(!empty($user_id)) {
-            $randomEvent    = $this->getEventType();
-            $eventModelName = $randomEvent.'Event';
+            // get random control based on user
+            // create event with random value if applicable
+            $control_type   = BaseEvent::getRandomUserControl($user_id);
+            $eventModelName = $this->eventTypes[$control_type].'Event';
             $event = $eventModelName(false, $user_id);
         }
         

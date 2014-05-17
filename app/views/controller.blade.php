@@ -38,15 +38,6 @@
 		</div>			
 	</div>
 	
-	<pre>
-	
-	<?php
-	
-	print_r($controls);
-	
-	?>
-	</pre>
-	
 	<div id="controller">
 		<div class="container">
 			<div class="row">
@@ -59,7 +50,7 @@
 						?>
 						<div id="control-dial" class="control-sep">
 							<input type="text" value="75" class="dial" rel="1">
-							<h2>Awesome Thermomenter V2</h2>
+							<h2>{{ $con['name'] }}</h2>
 						</div>
 						<?php
 					break;
@@ -67,8 +58,8 @@
 						?>
 						<div id="control-button" class="control-sep" style="display: block;">
 							<div class="form-group">
-								<input type="submit" class="btn btn-danger btn-block" rel="2" value="Fire Up" />
-								<h2>The Furnace</h2>
+								<input type="submit" class="btn btn-danger btn-block" rel="2" value="{{ $con['value'] }}" />
+								<h2>{{ $con['name'] }}</h2>
 							</div>
 						</div>
 						<?php
@@ -76,7 +67,7 @@
 					case 3:
 						?>
 						<div id="control-radio" class="control-sep" style="display: block;">
-							<div id="radios" rel="3" style="text-align: center;">
+							<div class="radios" rel="3" style="text-align: center;">
 							    <input id="option1" name="options" type="radio" class="radios">
 							    <label for="option1">1</label>					 
 							    <input id="option2" name="options" type="radio" class="radios">
@@ -88,7 +79,7 @@
 							    <input id="option5" name="options" type="radio" class="radios">
 							    <label for="option5">5<label>					 
 							</div>
-							<h2>Potentiometer Array</h2>
+							<h2>{{ $con['name'] }}</h2>
 						</div>
 						<?php
 					break;
@@ -131,7 +122,7 @@
 		    });
 		    
 		    //-- On Update for thr RADIOS
-		    $("#radios").radiosToSlider();
+		    $(".radios").radiosToSlider();
 		    $('.slider-level').click(function() {
 		    	updateStatus($('#radios').attr('rel'), $(this).attr('data-radio'))
 		    });
