@@ -52,7 +52,7 @@ class BaseEvent extends Eloquent {
     }
 
     public function getSuccessValue(){
-    	return $this->successValue;
+    	return rand(0,$this->successValue);
     }
 
     public function getEventType(){
