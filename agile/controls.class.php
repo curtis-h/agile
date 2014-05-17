@@ -30,5 +30,25 @@ class BaseControl extends Eloquent {
         return $faker->catchPhrase;
     }
     
+
+    public function getControl($id=0){
+        return $this::find($id);
+    }
+
+    public function createControl(){
+        $control = array(
+                'user_id'     => $this->user_id,
+                'game_id'     => Game::getCurrentGame(),
+                'type_id'     => $this->controlType,
+                'name'        => $this->name,
+                'value_range' => json_encode(array())
+            );
+        return $this::create($control);
+
+    }
+
+    public statis function getRandomUserControl($user_id){
+        return 1;
+    }
 }
 ?>
