@@ -21,7 +21,7 @@ Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkE
 Route::any('api/fail/{user_id}/{control_id}', 'ServerController@failEvent');
 
 
-Route::get('/game', array('before' => 'auth.basic', function()
+Route::get('/game', array('before' => 'auth', function()
 {
 	echo 'test';
 	exit();
@@ -51,12 +51,12 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
         // fetch user profile
         $userProfile = $provider->getUserProfile();
        
-//Check if user has record already
-        if (Auth::attempt(array('email' => $userProfile->email, 'password' => '')))
-		{
-		    // The user is active, not suspended, and exists.
-		    
-			echo 'User Logged In';
+		//Check if user has record already
+        $user = User::where('email', '=', $userProfile->email)->first();
+        //print_R($user);
+        if ($user)
+		{		    
+			//echo 'User Logged In';
 		}else{			
 			$details = array(
 				'email' => $userProfile->emailVerified,	
@@ -66,9 +66,12 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
 			);
 			
 			$user = User::create($details);
+			//echo 'User Created';
 			
-			Auth::attempt(array('email' => $userProfile->email, 'password' => ''));
 		}
+		
+		Auth::login($user, true);
+		
     }
 
     catch(Exception $e) {
@@ -77,8 +80,8 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
     }
 
     // access user profile data
-    echo "Connected with: <b>{$provider->id}</b><br />";
-    echo "As: <b>{$userProfile->displayName}</b><br />";
-    echo "<pre>" . print_r( $userProfile, true ) . "</pre><br />";
-    //return Redirect::to('/');
+    //echo "Connected with: <b>{$provider->id}</b><br />";
+    //echo "As: <b>{$userProfile->displayName}</b><br />";
+    //echo "<pre>" . print_r( $userProfile, true ) . "</pre><br />";
+    return Redirect::to('/game');
 }));
