@@ -37,15 +37,15 @@ class BaseEvent extends Eloquent {
         		'user_id' => $user_id
         	);
 
-        return $this::create($event);
+        return $this->create($event);
     }
 
     public function getEvent($id=0){
-    	return $this:findOrFail($id);
+    	return $this->findOrFail($id);
     }
 
     public function checkEventSuccess($id,$success){
-    	$event = $this:find($id);
+    	$event = $this->find($id);
 
     	return ($event->success==$success)?true:false;
     }
@@ -69,7 +69,7 @@ class BaseEvent extends Eloquent {
     }
 
     public function deleteEvent($id=0){
-    	return $this::delete($id);
+    	return $this->delete($id);
     }
 }
 
