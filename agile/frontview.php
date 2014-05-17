@@ -27,10 +27,15 @@ class FrontSiteController extends BaseController {
     	$array = $ss->createUserControls(Auth::user()->id);
     	
     	//-- Get the current Base health
-    	$health = 100;    	
+    	$health = $ss->getGame();   	
     	
     	//-- Show Page
     	return View::make('controller', array('user' => Auth::user(), 'base_health' => $health, 'controls' => $array));
+    }
+    
+    public function showUI() {
+    	
+    	return View::make('ui');
     }
     
 }

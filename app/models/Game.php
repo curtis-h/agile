@@ -34,4 +34,24 @@ class Game extends Eloquent {
 			return $newHealth;
 		}
 	}
+
+	public function createGame(){
+		return $this::create(array());
+	}
+
+	public function stopGame($id=0){
+		$gameObject = $this::find($id);
+		$gameObject->active = 0;
+		return $gameObject->save();
+	}
+
+	public static function getCurrentGame(){
+		$gameObject = $this::where('active':1)
+			->orderBy('id','desc');
+		if($gameObject) {
+			return $gameObject->id;
+		}
+
+		return false;
+	}
 }
