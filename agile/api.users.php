@@ -8,7 +8,7 @@ public $restful = true;
 		$json = new stdClass();
 		$json->firstname = $user->firstname;	
 		$json->lastname = $user->lastname;	
-		$json->picture = 'comingsoon';
+		$json->picture = $user->picture;
 		$json->achievements = array();
 		
 		foreach($user->achievements as $ach){

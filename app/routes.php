@@ -68,13 +68,18 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
         //print_R($user);
         if ($user)
 		{		    
-			//echo 'User Logged In';
+			//Update user details
+				$user->firstname = $userProfile->firstName;
+				$user->lastname = $userProfile->lastName;
+				$user->picture = $userProfile->photoURL;
+				$user->save();
 		}else{			
 			$details = array(
 				'email' => $userProfile->emailVerified,	
 				'firstname' => $userProfile->firstName,	
 				'lastname' => $userProfile->lastName,	
 				'fb_id' => $userProfile->identifier,	
+				'picture' => $userProfile->photoURL,	
 			);
 			
 			$user = User::create($details);
