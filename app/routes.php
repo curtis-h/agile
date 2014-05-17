@@ -16,6 +16,10 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
+Route::get('start', 'ServerController@createGame');
+Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
+Route::any('api/fail/{user_id}/{value}', 'ServerController@failEvent');
+
 
 Route::get('/game', array('before' => 'auth', function()
 {
@@ -47,7 +51,7 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
         // fetch user profile
         $userProfile = $provider->getUserProfile();
        
-//Check if user has record already
+		//Check if user has record already
         $user = User::where('email', '=', $userProfile->email)->first();
         //print_R($user);
         if ($user)
@@ -81,6 +85,3 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
     //echo "<pre>" . print_r( $userProfile, true ) . "</pre><br />";
     return Redirect::to('/game');
 }));
-
-Route::get('start', 'ServerController@createGame');
-
