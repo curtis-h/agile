@@ -24,6 +24,21 @@ class ServerController extends BaseController {
     public function getGame() {
         return 100;
     }
+    
+    /**
+     * save this user into this game
+     * probably need to pass in user and game ids
+     */
+    public function createUser() {
+        
+    }
+    
+    /**
+     * get all users for this game
+     */
+    public function getUsers($game_id=false) {
+        
+    }
 
     /**
      * create a random event assigned to a user
