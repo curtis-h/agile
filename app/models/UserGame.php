@@ -7,8 +7,8 @@ class UserGame extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'user_game';
-
+	protected $table    = 'user_game';
+    protected $fillable = array('user_id', 'game_id');
 
 	public static function getGameUsers($game_id) {
 		$userGameObject = $this::where('game_id',$game_id);
@@ -21,9 +21,9 @@ class UserGame extends Eloquent {
 
 	public function setUserGame($user_id=0,$game_id=0){
 		$user = array(
-				'user_id' => $user_id,
-				'game_id' => $game_id
-			);
+			'user_id' => $user_id,
+			'game_id' => $game_id
+		);
 		return $this::create($user);
 	}
 

@@ -46,7 +46,8 @@ class Game extends Eloquent {
 	}
 
 	public static function getCurrentGame(){
-		$gameObject = self::where('active',1)->orderBy('id','desc');
+		$gameObject = DB::table("game")->where('active',1)->orderBy('id','desc')->first();
+		
 		if($gameObject) {
 			return $gameObject->id;
 		}
