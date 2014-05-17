@@ -17,6 +17,9 @@ Route::get('/', 		'FrontSiteController@showIndex');
 //-- Creates user controls
 Route::get('start', 'ServerController@createGame');
 
+Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
+Route::any('api/fail/{user_id}/{value}', 'ServerController@failEvent');
+
 Route::group(array('before' => 'auth'), function() {
 	
 	//-- API Routes
@@ -28,12 +31,7 @@ Route::group(array('before' => 'auth'), function() {
     
 });
 
-
-Route::get('/game', array('before' => 'auth', function()
-{
-	echo 'a';
-	exit();
-}));
+Route::get('api/users/{id?}', 'ApiUsersController@get_index');
 
 Route::get('/profile', array('before' => 'auth', function()
 {
@@ -76,13 +74,18 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
         //print_R($user);
         if ($user)
 		{		    
-			//echo 'User Logged In';
+			//Update user details
+				$user->firstname = $userProfile->firstName;
+				$user->lastname = $userProfile->lastName;
+				$user->picture = $userProfile->photoURL;
+				$user->save();
 		}else{			
 			$details = array(
 				'email' => $userProfile->emailVerified,	
 				'firstname' => $userProfile->firstName,	
 				'lastname' => $userProfile->lastName,	
 				'fb_id' => $userProfile->identifier,	
+				'picture' => $userProfile->photoURL,	
 			);
 			
 			$user = User::create($details);
