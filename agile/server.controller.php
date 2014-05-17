@@ -55,6 +55,7 @@ class ServerController extends BaseController {
         $user_id    = Route::input('user_id');
         $control_id = Route::input('control_id');
         
+        // this needs to update the event db
     }
     
     
