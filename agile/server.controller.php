@@ -18,26 +18,28 @@ class ServerController extends BaseController {
      * run initial game setup
      */
     public function createGame() {
-        
+        $gameModel = new Game();
+        $gameModel->createGame();
     }
     
     public function getGame() {
-        return 100;
+        return Game::getCurrentGame();
     }
     
     /**
      * save this user into this game
      * probably need to pass in user and game ids
      */
-    public function createUser() {
-        
+    public function createUser($user_id) {
+        $userGameModel = new UserGame();
+        return $userGameModel->setUserGame($user_id,Game::getCurrentGame());
     }
     
     /**
      * get all users for this game
      */
     public function getUsers($game_id=false) {
-        
+        return UserGame::getGameUsers($game_id);
     }
 
     /**
