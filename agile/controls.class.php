@@ -48,8 +48,7 @@ class BaseControl extends Eloquent {
     }
 
     public static function getRandomUserControl($user_id){
-        $controlObject = $this::where('user_id',$user_id)
-            ->where('game_id',Game::getCurrentGame());
+        $controlObject = DB::table("controls")->where('user_id',$user_id)->where('game_id',Game::getCurrentGame())->first();
         if($controlObject) {
             return (int)$controlObject->type_id;
         }

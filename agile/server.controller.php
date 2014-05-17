@@ -48,8 +48,10 @@ class ServerController extends BaseController {
     public function createEvent() {
         $this->setupPusher();
         
-        // get random user
-        $user  = User::orderBy(DB::raw('RAND()'))->get();
+        // get random user from game
+        
+        $user  = User::orderBy(DB::raw('RAND()'))->first();
+        
         $event = $this->getRandomEvent($user->id);
         // push to client
         // push to display
@@ -134,12 +136,15 @@ class ServerController extends BaseController {
     protected function getRandomEvent($user_id=false) {
         $event = false;
         
+        
         if(!empty($user_id)) {
             // get random control based on user
             // create event with random value if applicable
-            $control_type   = BaseEvent::getRandomUserControl($user_id);
+            $control_type   = BaseControl::getRandomUserControl($user_id);
+            
             $eventModelName = $this->eventTypes[$control_type].'Event';
-            $event = $eventModelName(false, $user_id);
+            
+            $event = new $eventModelName(false, $user_id);
         }
         
         return $event;

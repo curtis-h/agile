@@ -8,6 +8,8 @@ class BaseEvent extends Eloquent {
 
 	protected $table = 'events';
 	protected $eventType = 'base';
+	protected $fillable = array('type', 'name', 'success', 'user_id');
+	
 
     /*
      * C'tor
@@ -31,13 +33,19 @@ class BaseEvent extends Eloquent {
     public function createEvent($user_id=0){
 
     	$event = array(
-        		'type' => $this->getEventType(),
-        		'name' => $this->getName(),
-        		'success' => $this->getSuccessValue(),
-        		'user_id' => $user_id
-        	);
-
-        return $this->create($event);
+    		'type' => $this->getEventType(),
+    		'name' => $this->getName(),
+    		'success' => $this->getSuccessValue(),
+    		'user_id' => $user_id
+    	);
+        
+        $a = DB::table("events")->insertGetId(
+            $event
+        );
+        
+    	//$a = $this->create($event);
+        //var_dump($event); exit();
+        return $a;
     }
 
     public function getEvent($id=0){
