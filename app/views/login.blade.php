@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Mobile</title>
+	<title>GAME NAME</title>
 	
 	<!-- Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 	
 	<!-- System -->
-	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="<?php echo asset('game/main.css'); ?>">
 	
 </head>
 <body id="login">
@@ -21,13 +21,12 @@
 	<div class="container">
 		<div class="row">
 			
-			<a href=''>
+			<a href='<?php echo url('social/'); ?>'>
 				<div class="login-facebook"><i class="fa fa-facebook"></i>Login with Facebook</div>
 			</a>
 			
 		</div>
 	</div>
-
 	
 	<!-- Bootstrap JS -->
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>

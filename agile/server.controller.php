@@ -12,6 +12,7 @@ class ServerController extends BaseController {
         'Slider',
     );
     
+    protected $pusher;
 
     /**
      * run initial game setup
@@ -26,10 +27,9 @@ class ServerController extends BaseController {
      */
     public function createEvent() {
         // get random user
-        // create event
-        $randomEvent    = $this->getEventType();
-        $eventModelName = $randomEvent.'Event';
-        $eventModel     = new $eventModelName();
+        User::all();
+        
+        $event = $this->getRandomEvent();
         // push to client
         // push to display
         
@@ -65,16 +65,22 @@ class ServerController extends BaseController {
         // this needs to update the event db
     }
     
-    
     /**
-     * handle user login
-     * not sure with this one as might be using pusher
+     * create 3 random controls for the user
      */
-    public function login() {
+    public function createUserControls() {
+        $events  = array();
+        // I dont think we get the user_id this way
+        $user_id = Route::input('user_id');
         
+        for($i=0; $i<3; $i++) {
+            if($event = $this->getRandomControls()) {
+                $events[] = $event;
+            }
+        }
+        
+        return $events;
     }
-    
-    protected $pusher;
     
     /**
      * create the pusher connection
@@ -100,6 +106,28 @@ class ServerController extends BaseController {
      */
     protected function getEventType() {
         return $this->eventTypes[rand(0, count($this->eventTypes) -1)];
+    }
+    
+    /**
+     * create and return a random event assigned to a user
+     */
+    protected function getRandomEvent($user_id=false) {
+        $event = false;
+        
+        if(!empty($user_id)) {
+            $randomEvent    = $this->getEventType();
+            $eventModelName = $randomEvent.'Event';
+            $event = $eventModelName(false, $user_id);
+        }
+        
+        return $event;
+    }
+    
+    /*
+     * get a random controller
+     */
+    protected function getRandomControls() {
+        
     }
     
 }

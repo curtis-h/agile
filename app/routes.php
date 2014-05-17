@@ -11,14 +11,23 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+//-- Login Page
+Route::get('/', 		'FrontSiteController@showIndex');
 
+//-- Creates user controls
 Route::get('start', 'ServerController@createGame');
-Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
-Route::any('api/fail/{user_id}/{control_id}', 'ServerController@failEvent');
+
+Route::group(array('before' => 'auth'), function() {
+	
+	//-- API Routes
+    Route::any('api/get_controls/{user_id}', 'serverController@createUserControls');
+    Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
+    Route::any('api/fail/{user_id}/{control_id}', 'ServerController@failEvent');
+    
+    //-- Viewing Routes
+    Route::get('controls', 		'FrontSiteController@showController');
+    
+});
 
 
 Route::get('/game', array('before' => 'auth', function()
@@ -83,5 +92,6 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
     //echo "Connected with: <b>{$provider->id}</b><br />";
     //echo "As: <b>{$userProfile->displayName}</b><br />";
     //echo "<pre>" . print_r( $userProfile, true ) . "</pre><br />";
-    return Redirect::to('/game');
+    //-- return Redirect::to('/game');
+    return Redirect::to('/controls');
 }));
