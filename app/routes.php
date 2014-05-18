@@ -12,13 +12,16 @@
 */
 
 //-- Login Page
-Route::get('/', 		'FrontSiteController@showIndex');
+Route::get('/',         'FrontSiteController@showIndex');
 
 //-- Creates user controls
 Route::get('start', 'ServerController@createGame');
 
-Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
-Route::any('api/fail/{user_id}/{value}', 'ServerController@failEvent');
+//-- Main UI
+Route::any('front',     'FrontSiteController@showUI');
+
+// Misc
+Route::any('api/createEvent', 'ServerController@createEvent');
 
 //* TESTING
  
@@ -26,13 +29,13 @@ Route::any('checkUserControls/{user_id}', 'ServerController@createUserControls')
 Route::any('checkEvents', 'ServerController@createEvent');
 //*/
 Route::group(array('before' => 'auth'), function() {
-	
-	//-- API Routes
+    
+    //-- API Routes
     Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
     Route::any('api/fail/{user_id}/{control_id}', 'ServerController@failEvent');
     
     //-- Viewing Routes
-    Route::get('controls', 		'FrontSiteController@showController');
+    Route::get('controls',      'FrontSiteController@showController');
     
 });
 
@@ -171,5 +174,4 @@ Route::get('twofactor/{action?}', array("as" => "twofactor", "before" => "auth",
     //@TODO: Jake do designer shit
     echo 'Enter code';
 }));
-
-
+/*//
