@@ -57,7 +57,7 @@ class ServerController extends BaseController {
             'show_to'    => $showTo->id,
             'show_text'  => $event->getText()
         );
-        var_dump($push);
+        
         // push to client and display
         $this->getPusher()->trigger(
             Config::get('app.pusher_channel_name'), 

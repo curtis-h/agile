@@ -50,8 +50,6 @@ class BaseControl extends Eloquent {
                             ->where('game_id',Game::getCurrentGame())
                             ->orderBy(DB::raw('RAND()'))
                             ->first();
-        var_dump(Game::getCurrentGame());
-        echo "<hr>";
         
         if($controlObject) {
             return (int)$controlObject->type_id;
