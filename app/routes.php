@@ -40,7 +40,7 @@ Route::group(array('before' => 'auth'), function() {
     
     //-- API Routes
     Route::any('api/update/{user_id}/{control_id}/{value}/{cid}', 'ServerController@checkEvent');
-    Route::any('api/fail/{user_id}/{control_id}', 'ServerController@failEvent');
+    Route::any('api/fail/{event_id}', 'ServerController@failEvent');
     
     //-- Viewing Routes
     Route::get('controls',      'FrontSiteController@showController');
