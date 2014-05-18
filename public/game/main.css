@@ -103,3 +103,7 @@ body, html {
 .radios {
 	margin: 50px auto;
 }
+
+#panda {
+	display: none;
+}

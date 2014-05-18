@@ -25,6 +25,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     {
         return $this->belongsToMany('Achievement', 'achievements_users');
     }
+    
+	public function stats()
+    {
+        return $this->hasMany('UserStat');
+    }
 	
 	/**
 	 * Get the unique identifier for the user.

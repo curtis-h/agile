@@ -1,0 +1,49 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,900);
+
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	color: #788288;
+	background-color: #000;
+	-webkit-font-smoothing: antialiased;
+	line-height: 1.53846154;
+}
+
+/*# Top Bar #*/
+#topBar {
+	background: #000;
+	color: #FFF;
+	height: 80px;
+}
+
+#topBar .user-person {
+	line-height: 80px;
+	font-size: 30px;
+}
+
+#topBar .base-health {
+	line-height: 80px;
+	font-size: 40px;
+	text-align: right;
+	color: #FFF;
+}
+
+.ui-container {
+	margin-top: 40px;
+}
+
+.controller, .messageHero {
+	background: #FFF;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	color: #FFF;	
+}

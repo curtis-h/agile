@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/bootflat/2.0.0/css/bootflat.css">
 	
 	<!-- System -->
-	<link rel="stylesheet" href="<?php echo asset('game/main.css'); ?>">
+	<link id="mainstyle" rel="stylesheet" href="<?php echo asset('game/main.css'); ?>">
 	
 	<!-- Controls -->
 	<link rel="stylesheet" href="<?php echo asset('game/controllers/radio.css'); ?>">
@@ -28,7 +28,15 @@
 			</div>
 		</div>
 	</div>
-	
+	<div id="panda">
+		<div class="container">
+			<div class="row">
+				<img src="/game/panda.png">
+				<h2>PANDA ATTTACK!</h2>
+				Click to defeat!
+			</div>
+		</div>	
+	</div>
 	<div id="messageHero">
 		<div class="container">
 			<div class="row">

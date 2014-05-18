@@ -60,6 +60,11 @@ Route::get('/profile', array('before' => 'auth', function()
 	
 	foreach ($user->achievements as $achievement)
 		echo $achievement->name.'<br>';
+	
+	echo 'Stats:<br>';
+	
+	foreach ($user->stats as $stat)
+		echo $stat->name.' - '.$stat->value.'<br>';
 }));
 
 Route::get('social/{action?}', array("as" => "hybridauth", function($action = "")

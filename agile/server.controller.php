@@ -140,6 +140,22 @@ class ServerController extends BaseController {
         // run check for this user and this control
         if($event_id = BaseEvent::checkEvent($user_id, $control_id, $value)) {
             // TODO - success needs to mark event as completed
+            $stat = array(
+                ""    
+            );
+            $prev = DB::table("user_stats")->where('user_id', '=', $user_id)->where('name', '=', 'Completed Events')->first();
+            
+            if(!$prev){
+                
+                $stat = array();
+                $stat['name'] = 'Completed Events';
+                $stat['user_id'] = $user_id;
+                $stat['value'] = 1;
+                DB::table("user_stats")->insertGetId($stat);
+            }else{
+                $prev->value++;
+                DB::table('user_stats')->where('id', $prev->id)->update(array('value' => $prev->value));   
+            }
             
             DB::table("events")->where("id", $event_id)->delete();
             
