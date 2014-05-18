@@ -63,7 +63,7 @@
 						?>
 						<div id="control-button" class="control-sep" style="display: block;">
 							<div class="form-group">
-								<input type="submit" class="btn btn-danger btn-block btn-lg" rel="2" value="{{ $con['value'] }}" data-id="{{ $con['id'] }}" />
+								<input type="submit" class="btn btn-danger btn-block btn-lg" rel="2" value="Button" data-id="{{ $con['id'] }}" />
 								<h2>{{ $con['name'] }}</h2>
 							</div>
 						</div>
