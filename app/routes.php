@@ -36,6 +36,7 @@ Route::any('checkEvents', 'ServerController@createEvent');
 
 Route::any('checkUpdate/{user_id}/{control_id}/{$value}', 'ServerController@checkEvent');
 //*/
+
 Route::group(array('before' => 'auth'), function() {
     
     //-- API Routes
@@ -185,4 +186,20 @@ Route::get('twofactor/{action?}', array("as" => "twofactor", "before" => "auth",
     //@TODO: Jake do designer shit
     echo 'Enter code';
 }));
-/*//
+
+Route::any('xeedata', array("as" => "xeedata", function()
+{
+	$name = $_REQUEST['name'];
+	$value = $_REQUEST['value'];
+	
+	$xee = XeeData::where('name', '=', $name)->first();
+	
+	if(!$xee){
+		$xee = new XeeData();
+	}
+	
+	$xee->name = $name;
+	$xee->value = $value;
+	
+	$xee->save();
+}));
