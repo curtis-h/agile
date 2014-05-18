@@ -43,7 +43,7 @@
 			<div class="row">
 			<?php
 			
-			dd($controls);
+			//dd($controls);
 			
 			?>
 			<?php

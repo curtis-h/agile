@@ -14,13 +14,13 @@ class BaseEvent extends Eloquent {
     /*
      * C'tor
      */
-    public function __construct($id=0,$user_id=0, $control_type=0, $name="", $success=1) {
+    public function __construct($id=0,$user_id=0, $control_type=0, $name="", $success=1, $control_id = 0) {
         // set up randomness
     	if($id) {
     		return $this->getEvent($id);
     	}
     	else {
-    		return $this->createEvent($user_id, $control_type, $name, $success);
+    		return $this->createEvent($user_id, $control_type, $name, $success, $control_id);
     	}
     }
 
@@ -30,17 +30,19 @@ class BaseEvent extends Eloquent {
     	}
     }
 
-    public function createEvent($user_id=0, $control_type=0, $name="", $success=1){
+    public function createEvent($user_id=0, $control_type=0, $name="", $success=1, $control_id){
         $this->user_id   = $user_id;
         $this->eventType = $control_type;
         $this->name      = $name;
         $this->success   = $success;
+        $this->control_id = $control_id;
         
     	$event = array(
     		'type' => $this->getEventType(),
     		'name' => $this->getName(),
     		'success' => $this->getSuccessValue(),
-    		'user_id' => $this->getUserId()
+    		'user_id' => $this->getUserId(),
+    		'control_id' => $this->control_id
     	);
         
         $this->id = DB::table("events")->insertGetId($event);
@@ -96,7 +98,8 @@ class BaseEvent extends Eloquent {
             ->where("user_id", $user_id)
             ->where("type", $control_id)
             ->where("success", $value)
-            ->first();
+            ->first()
+            ->id;
     }
 }
 

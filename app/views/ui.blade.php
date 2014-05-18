@@ -50,11 +50,12 @@
     	var channel = pusher.subscribe('roboto_event');
     	//-- Event Created
     	channel.bind('event_create', function(data) {
-	    	createEvent(data.show_text, 10, data.event_id, data.user_id);
+	    	createEvent(data.show_text + '> ' + data.cid, 10, data.event_id, data.user_id);
 	    });
 	    channel.bind('event_success', function(data) {
 	    	//--successEvent(data.event_id);
-	    	console.log("Success - " + data.event_id);
+	    	console.log(data);
+	    	console.log("Success - " + data);
 	    });
 	</script>
 	

@@ -101,7 +101,8 @@ class ServerController extends BaseController {
             'user_id'    => $event->getUserId(),
             'control_id' => $event->getEventType(),
             'show_to'    => $showTo->id,
-            'show_text'  => $this->getTickerText($event)
+            'show_text'  => $this->getTickerText($event),
+            'cid' 		 => $event->control_id             
         );
         
         // push to client and display
@@ -124,8 +125,8 @@ class ServerController extends BaseController {
         // run check for this user and this control
         if($event_id = BaseEvent::checkEvent($user_id, $control_id, $value)) {
             // TODO - success needs to mark event as completed
-            $event = new BaseEvent($event_id);
-            $event->deleteEvent();
+            
+            DB::table("events")->where("id", $event_id)->delete();
             
             // if success needs to tell main screen
             $this->getPusher()->trigger(
@@ -208,7 +209,7 @@ class ServerController extends BaseController {
             $control        = BaseControl::getRandomUserControl($user_id);
             $control_type   = (int)$control->type_id;
             $success_val    = rand(0, $this->eventMaxValues[$control_type-1]);
-            $event          = new BaseEvent(false, $user_id, $control_type, $control->name, $success_val);
+            $event          = new BaseEvent(false, $user_id, $control_type, $control->name, $success_val, $control->id);
         }
         
         return $event;
