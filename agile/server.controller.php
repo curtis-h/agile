@@ -263,4 +263,12 @@ class ServerController extends BaseController {
                     )
             );
     }
+
+    public function replayGame() {
+        $gameModel = new Game();
+        if(!Game::getCurrentGame()) {
+            $gameModel->createGame();
+        }
+        Redirect::to("/social");
+    }
 }

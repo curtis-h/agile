@@ -23,6 +23,9 @@ Route::get('stop', 'ServerController@stopGame');
 //-- Restart the game
 Route::get('restart', 'ServerController@restartGame');
 
+//-- Restart the game
+Route::get('replay', 'ServerController@replayGame');
+
 //-- Main UI
 Route::any('front',     'FrontSiteController@showUI');
 Route::any('api/health',     'ServerController@getHealth');
