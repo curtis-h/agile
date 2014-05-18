@@ -8,7 +8,7 @@
 */
 function createEvent(name, timeout, id, user_id) {
 	
-	var newHTML = '<div class="row event" id="event_' + id + '" rel="' + timeout + '" data-id="' + id + '" data-user="' + user_id + '"><div class="col-xs-2">' + name + '</div><div class="col-xs-10"><div class="progress progress-striped active"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="event-bar-' + id + '"><span class="sr-only">0% Complete</span></div></div></div></div';
+	var newHTML = '<div class="row event" id="event_' + id + '" rel="' + timeout + '" data-id="' + id + '" data-user="' + user_id + '"><div class="col-xs-6">' + name + '</div><div class="col-xs-6"><div class="progress progress-striped active"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="event-bar-' + id + '"><span class="sr-only">0% Complete</span></div></div></div></div';
 	
 	$('.ui-container').append(newHTML);
 	
@@ -42,7 +42,7 @@ function tellServerFail(id, user_id) {
 	console.log("Send Fail: " + id);
 	updateBaseHealth(10);
 	
-	var url = "http://37.139.5.63/api/fail/1/1";
+	var url = "http://agilehack.demonic.me/api/fail/1/1";
 
 	$.ajax({
 	    url: url,

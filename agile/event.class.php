@@ -14,13 +14,13 @@ class BaseEvent extends Eloquent {
     /*
      * C'tor
      */
-    public function __construct($id=0,$user_id=0, $control_type=0) {
+    public function __construct($id=0,$user_id=0, $control_type=0, $name="") {
         // set up randomness
     	if($id) {
     		return $this->getEvent($id);
     	}
     	else {
-    		return $this->createEvent($user_id, $control_type);
+    		return $this->createEvent($user_id, $control_type, $name);
     	}
     }
 
@@ -30,9 +30,11 @@ class BaseEvent extends Eloquent {
     	}
     }
 
-    public function createEvent($user_id=0, $control_type=0){
+    public function createEvent($user_id=0, $control_type=0, $name=""){
         $this->user_id   = $user_id;
         $this->eventType = $control_type;
+        $this->name      = $name;
+        $this->success   = $this->getSuccessValue();
         
     	$event = array(
     		'type' => $this->getEventType(),
@@ -41,7 +43,7 @@ class BaseEvent extends Eloquent {
     		'user_id' => $this->getUserId()
     	);
         
-        return DB::table("events")->insertGetId($event);
+        $this->id = DB::table("events")->insertGetId($event);
     }
 
     public function getEvent($id=0){
@@ -59,13 +61,15 @@ class BaseEvent extends Eloquent {
      * @return string
      */
     public function getName(){
-    	$faker = Faker\Factory::create();
-
-    	return $faker->catchPhrase;
+        return $this->name;
     }
 
     public function getSuccessValue(){
-    	return rand(0,$this->successValueMax);
+        if(empty($this->success)) {
+            $this->success = rand(0,$this->successValueMax);
+        }
+        
+        return $this->success;
     }
 
     public function getEventType(){

@@ -6,7 +6,6 @@ class ThermometerControl extends BaseControl {
         $this->getName();
         $this->maxValue    = 100;
         $this->controlType = 1;
-        // save to db
     }
 }
 ?>

@@ -23,9 +23,8 @@
 	<div id="topBar">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-3 user-person"><img style="height:60px; margin-top: -8px;" src="{{ $user->picture }}"></div>
-				<div class="col-xs-5 user-person">{{ $user->firstname }}</div>
-  				<div class="col-xs-4 team-health">{{ $base_health }}</div>
+				<div class="col-xs-6 user-person"><img style="height:60px; margin: -8px 15px 0 0;" src="{{ $user->picture }}">{{ $user->firstname }}</div>
+  				<div class="col-xs-6 team-health">{{ $base_health }}</div>
 			</div>
 		</div>
 	</div>
@@ -50,7 +49,7 @@
 					case 1:
 						?>
 						<div id="control-dial" class="control-sep">
-							<input type="text" value="75" class="dial" rel="1">
+							<input type="text" value="<?php echo rand(0, 100); ?>" class="dial" rel="1">
 							<h2>{{ $con['name'] }}</h2>
 						</div>
 						<?php
@@ -59,7 +58,7 @@
 						?>
 						<div id="control-button" class="control-sep" style="display: block;">
 							<div class="form-group">
-								<input type="submit" class="btn btn-danger btn-block" rel="2" value="{{ $con['value'] }}" />
+								<input type="submit" class="btn btn-danger btn-block btn-lg" rel="2" value="{{ $con['value'] }}" />
 								<h2>{{ $con['name'] }}</h2>
 							</div>
 						</div>
