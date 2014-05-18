@@ -17,11 +17,8 @@ Route::get('/', 		'FrontSiteController@showIndex');
 //-- Creates user controls
 Route::get('start', 'ServerController@createGame');
 
-//-- Main UI
-Route::any('front', 	'FrontSiteController@showUI');
-
-// Misc
-Route::any('api/createEvent', 'ServerController@createEvent');
+Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
+Route::any('api/fail/{user_id}/{value}', 'ServerController@failEvent');
 
 Route::group(array('before' => 'auth'), function() {
 	
@@ -81,6 +78,7 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
 				$user->firstname = $userProfile->firstName;
 				$user->lastname = $userProfile->lastName;
 				$user->picture = $userProfile->photoURL;
+				$user->twofac = false;
 				$user->save();
 		}else{			
 			$details = array(
@@ -131,3 +129,42 @@ Route::get('getphone/{action?}', array("as" => "getphone", "before" => "auth", f
 
     echo 'Add Phone form goes here';
 }));
+
+Route::get('twofactor/{action?}', array("as" => "twofactor", "before" => "auth", function($action = "")
+{
+    
+	$user = Auth::user();
+	
+    if ($action == "check") {
+    	if($user->twofac_compare == $_REQUEST['code']){
+    		$user->twofac = true;
+			$user->save();
+			return Redirect::to('/controls');
+    	}else{
+    		//@TODO: Jake make pretty
+    		echo 'wrong code';	
+    	}
+    }else{
+		$digits = 4;
+		$code = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
+		$to = $user->phone;
+		$user->twofac_compare = $code;
+		
+		// Assign credentials
+		//$this->AccountSid = Config::get('twilio_accountsid');
+		//$this->AuthToken  = Config::get('twilio_authtoken');
+
+		// Client
+		$client = new Services_Twilio('AC6ecab69649ef42b88af8e3a992e9f325', '35683cc660e4c130852323de811801ff');
+		
+		$body = "Your verification code is: $code";
+		$client->account->sms_messages->create('+441133201223', $to, $body);
+		
+		$user->save();
+	}
+
+    //@TODO: Jake do designer shit
+    echo 'Enter code';
+}));
+
+

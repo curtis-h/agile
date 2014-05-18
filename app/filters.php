@@ -35,13 +35,18 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	//print_R(Auth::check());
-	//exit();
-	if (!Auth::check()){
-		if(getCurrentRoute()->getPath() != 'getphone')
-			return Redirect::to('social');
-		else
-			return Redirect::to('getphone');
+	$user = Auth::user();
+	if (!$user){
+		return Redirect::to('social');
+	}
+	
+	$route = Route::getCurrentRoute()->getName();
+	if(!$user->phone && $route != 'getphone'){
+		return Redirect::to('getphone');
+	}
+	
+	if(!$user->twofac && $route != 'twofactor'){
+		return Redirect::to('twofactor');
 	}
 });
 
