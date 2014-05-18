@@ -159,9 +159,13 @@ class ServerController extends BaseController {
      */
     public function failEvent() {
         $user_id    = Route::input('user_id');
-        $control_id = Route::input('control_id');
+        $event_id = Route::input('event_id');
         
         // this needs to update the event db
+        $gameModel = new Game();
+        $gameModel->removeHealth(Game::getCurrentGame(),10);
+
+        DB::table("events")->where("id", $event_id)->delete();
     }
     
     /**
