@@ -40,8 +40,13 @@ class FrontSiteController extends BaseController {
     }
     
     public function complete() {
-    	
-    	return View::make('complete');
+        
+        return View::make('complete');
+    }
+    
+    public function gameover() {
+        
+        return View::make('gameover');
     }
     
 }
