@@ -45,6 +45,20 @@ class ServerController extends BaseController {
         $gameModel = new Game();
         $gameModel->createGame();
     }
+
+    /**
+     * Stop the current game
+     * @return [type] [description]
+     */
+    public function stopGame() {
+        $gameModel = new Game();
+        $gameModel->stopGame(Game::getCurrentGame());
+    }
+
+    public function restartGame() {
+        $gameModel = new Game();
+        $gameModel->restartGame();
+    }
     
     public function getGame() {
         return Game::getCurrentGame();
