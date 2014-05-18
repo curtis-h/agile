@@ -282,9 +282,7 @@ class ServerController extends BaseController {
 
     public function endGame() {
         $gameModel = new Game();
-        if(!Game::getCurrentGame()) {
-            $gameModel->createGame();
-        }
+        $gameModel->restartGame();
         return Redirect::to("front");
     }
 }
