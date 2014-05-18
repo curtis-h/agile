@@ -269,6 +269,6 @@ class ServerController extends BaseController {
         if(!Game::getCurrentGame()) {
             $gameModel->createGame();
         }
-        Redirect::to("/social");
+        return Redirect::to("social");
     }
 }
