@@ -10,7 +10,9 @@ function createEvent(name, timeout, id, user_id) {
 	
 	var newHTML = '<div class="row event" id="event_' + id + '" rel="' + timeout + '" data-id="' + id + '" data-user="' + user_id + '"><div class="col-xs-6">' + name + '</div><div class="col-xs-6"><div class="progress progress-striped active"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="event-bar-' + id + '"><span class="sr-only">0% Complete</span></div></div></div></div';
 	
-	$('.ui-container').append(newHTML);
+	var newHTML = '<li style="padding-left: 0%" data-valuenow="0" rel="' + timeout + '" id="event_' + id + '" data-id="' + id + '"><img src="http://agilehack.demonic.me/ui/runner.gif"></li>';
+	
+	$('.progress_areas ul').append(newHTML);
 	
 }
 
@@ -23,24 +25,33 @@ function runEvents() {
 	
 	//getHealth();
 	
-	$('.event').each(function() {
+	$('.progress_areas ul li').each(function() {
+		
+		if ( $(this).find('img').attr('src') == "http://agilehack.demonic.me/ui/explosion.gif") {
+        	$(this).remove();
+        } else {
+        	
+        }
 		var thisID = $(this).attr('data-id');
 		var timeOut = $(this).attr('rel');
 		
 		//-- What is my amount
-		var thisAmount = parseInt($('#event-bar-' + thisID).attr('aria-valuenow'));
+		var thisAmount = parseInt($('#event_' + thisID).attr('data-valuenow'));
 		
 		if (thisAmount < timeOut) {
 			
 			var newAmount = (thisAmount + 1) * timeOut;
-			$('#event-bar-' + thisID).attr('aria-valuenow', thisAmount + 1);
-			$('#event-bar-' + thisID).css('width', newAmount + "%");
+			$('#event_' + thisID).attr('data-valuenow', thisAmount + 1);
+			$('#event_' + thisID).css('padding-left', newAmount + "%");
 			
 			if (newAmount >= 100) {
 				tellServerFail(thisID);
 			}
 			
-		}
+		}  else {
+	         $(this).find('img').attr('src', 'http://agilehack.demonic.me/ui/explosion.gif');
+	    }
+          
 	});	
 }
 
@@ -89,6 +100,6 @@ function updateBaseHealth(amount) {
 	        datatype: 'jsonp',
 	    });
 	    
-		window.location = "http://agilehack.demonic.me/complete";
+		window.location = "http://agilehack.demonic.me/ended";
 	}
 }

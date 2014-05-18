@@ -132,7 +132,7 @@
 		    	updateStatus($('.radios').attr('rel'), $(this).attr('data-radio'), $('.radios').attr('data-id'))
 		    });
 		    
-		    $('#mm').click(function() {
+		    $('#messageHero').click(function() {
 		    	$('#messageHero').hide();	
 		    });
 		    
