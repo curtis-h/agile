@@ -17,6 +17,12 @@ Route::get('/',         'FrontSiteController@showIndex');
 //-- Creates user controls
 Route::get('start', 'ServerController@createGame');
 
+//-- Stops the game
+Route::get('stop', 'ServerController@stopGame');
+
+//-- Restart the game
+Route::get('restart', 'ServerController@restartGame');
+
 //-- Main UI
 Route::any('front',     'FrontSiteController@showUI');
 
