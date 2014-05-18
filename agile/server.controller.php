@@ -12,6 +12,30 @@ class ServerController extends BaseController {
         'Slider',
     );
     
+    protected $eventTexts = array(
+        array(
+            'Change the',
+            'Rotate the',
+            'Move the'
+        ),
+        array(
+            'Turn on',
+            'Press',
+            'Combobulate',
+        ),
+        array(
+            'Change the',
+            'Slide the',
+            'Move the'
+        ),
+    );
+    
+    protected $eventMaxValues = array(
+        100,
+        1,
+        5,
+    );
+    
     protected $pusher;
 
     /**
@@ -20,6 +44,20 @@ class ServerController extends BaseController {
     public function createGame() {
         $gameModel = new Game();
         $gameModel->createGame();
+    }
+
+    /**
+     * Stop the current game
+     * @return [type] [description]
+     */
+    public function stopGame() {
+        $gameModel = new Game();
+        $gameModel->stopGame(Game::getCurrentGame());
+    }
+
+    public function restartGame() {
+        $gameModel = new Game();
+        $gameModel->restartGame();
     }
     
     public function getGame() {
@@ -41,21 +79,44 @@ class ServerController extends BaseController {
     public function getUsers($game_id=false) {
         return UserGame::getGameUsers($game_id);
     }
+    
+    public function getTickerText($event) {
+        $values = $this->eventTexts[$event->getEventType()-1];
+        $rand   = rand(0, count($values)-1);
+        $text   = '';
+        
+        switch($event->getEventType()) {
+            case 2:
+                $text = "{$values[$rand]} the {$event->name}";
+                break;
+            case 1:
+            case 3:
+            default:
+                $text = "{$values[$rand]} {$event->name} to {$event->success}";
+                break;
+        }
+        
+        return $text;
+    }
 
     /**
      * create a random event assigned to a user
      */
     public function createEvent() {
+        
         // get random user from game
         $user   = User::orderBy(DB::raw('RAND()'))->first();
         $event  = $this->getRandomEvent($user->id);
+        
         // get user to show this event to
         $showTo = DB::table("users")->select("id")->where('id', '<>', $user->id)->orderBy(DB::raw('RAND()'))->first();
         $push   = array(
+            'event_id'   => $event->id,
             'user_id'    => $event->getUserId(),
             'control_id' => $event->getEventType(),
             'show_to'    => $showTo->id,
-            'show_text'  => $event->getText()
+            'show_text'  => $this->getTickerText($event),
+            'cid' 		 => $event->control_id             
         );
         
         // push to client and display
@@ -74,10 +135,13 @@ class ServerController extends BaseController {
         $user_id    = Route::input('user_id');
         $control_id = Route::input('control_id');
         $value      = Route::input('value');
+        $cid        = Route::input('cid');
         
         // run check for this user and this control
         if($event_id = BaseEvent::checkEvent($user_id, $control_id, $value)) {
             // TODO - success needs to mark event as completed
+            
+            DB::table("events")->where("id", $event_id)->delete();
             
             // if success needs to tell main screen
             $this->getPusher()->trigger(
@@ -95,9 +159,13 @@ class ServerController extends BaseController {
      */
     public function failEvent() {
         $user_id    = Route::input('user_id');
-        $control_id = Route::input('control_id');
+        $event_id = Route::input('event_id');
         
         // this needs to update the event db
+        $gameModel = new Game();
+        $gameModel->removeHealth(Game::getCurrentGame(),10);
+
+        DB::table("events")->where("id", $event_id)->delete();
     }
     
     /**
@@ -157,8 +225,10 @@ class ServerController extends BaseController {
         if(!empty($user_id)) {
             // get random control based on user
             // create event with random value if applicable
-            $control_type   = BaseControl::getRandomUserControl($user_id);
-            $event          = new BaseEvent(false, $user_id, $control_type);
+            $control        = BaseControl::getRandomUserControl($user_id);
+            $control_type   = (int)$control->type_id;
+            $success_val    = rand(0, $this->eventMaxValues[$control_type-1]);
+            $event          = new BaseEvent(false, $user_id, $control_type, $control->name, $success_val, $control->id);
         }
         
         return $event;
@@ -177,5 +247,16 @@ class ServerController extends BaseController {
         }
         
         return $control;
+    }
+
+    public function getHealth(){
+        $gameModel = new Game();
+        $health = $gameModel->getHealth(Game::getCurrentGame());
+        echo json_encode(
+                array(
+                    'alive' => ($health>0)?true:false,
+                    'health' => $health
+                    )
+            );
     }
 }

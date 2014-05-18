@@ -54,4 +54,11 @@ class Game extends Eloquent {
 
 		return false;
 	}
+
+	public function restartGame(){
+		$game_id = self::getCurrentGame();
+		$this->stopGame($game_id);
+		$this->createGame();
+		return self::getCurrentGame();
+	}
 }

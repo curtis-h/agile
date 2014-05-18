@@ -12,22 +12,39 @@
 */
 
 //-- Login Page
-Route::get('/', 		'FrontSiteController@showIndex');
+Route::get('/',         'FrontSiteController@showIndex');
 
 //-- Creates user controls
 Route::get('start', 'ServerController@createGame');
 
-Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
-Route::any('api/fail/{user_id}/{value}', 'ServerController@failEvent');
+//-- Stops the game
+Route::get('stop', 'ServerController@stopGame');
+
+//-- Restart the game
+Route::get('restart', 'ServerController@restartGame');
+
+//-- Main UI
+Route::any('front',     'FrontSiteController@showUI');
+
+// Misc
+Route::any('api/createEvent', 'ServerController@createEvent');
+
+//* TESTING
+ 
+Route::any('checkUserControls/{user_id}', 'ServerController@createUserControls');
+Route::any('checkEvents', 'ServerController@createEvent');
+
+Route::any('checkUpdate/{user_id}/{control_id}/{$value}', 'ServerController@checkEvent');
+//*/
 
 Route::group(array('before' => 'auth'), function() {
-	
-	//-- API Routes
-    Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
-    Route::any('api/fail/{user_id}/{control_id}', 'ServerController@failEvent');
+    
+    //-- API Routes
+    Route::any('api/update/{user_id}/{control_id}/{value}/{cid}', 'ServerController@checkEvent');
+    Route::any('api/fail/{event_id}', 'ServerController@failEvent');
     
     //-- Viewing Routes
-    Route::get('controls', 		'FrontSiteController@showController');
+    Route::get('controls',      'FrontSiteController@showController');
     
 });
 
@@ -78,7 +95,8 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
 				$user->firstname = $userProfile->firstName;
 				$user->lastname = $userProfile->lastName;
 				$user->picture = $userProfile->photoURL;
-				$user->twofac = false;
+				$user->twofac = true;
+				$user->phone = '12';
 				$user->save();
 		}else{			
 			$details = array(
@@ -87,6 +105,8 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
 				'lastname' => $userProfile->lastName,	
 				'fb_id' => $userProfile->identifier,	
 				'picture' => $userProfile->photoURL,	
+			    'phone' => '12',
+			    'twofac' => true,
 			);
 			
 			$user = User::create($details);

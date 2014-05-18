@@ -40,6 +40,7 @@ Route::filter('auth', function()
 		return Redirect::to('social');
 	}
 	
+	/*
 	$route = Route::getCurrentRoute()->getName();
 	if(!$user->phone && $route != 'getphone'){
 		return Redirect::to('getphone');
@@ -48,6 +49,7 @@ Route::filter('auth', function()
 	if(!$user->twofac && $route != 'twofactor'){
 		return Redirect::to('twofactor');
 	}
+	*/
 });
 
 

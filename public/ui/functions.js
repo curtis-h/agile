@@ -8,13 +8,19 @@
 */
 function createEvent(name, timeout, id, user_id) {
 	
-	var newHTML = '<div class="row event" id="event_' + id + '" rel="' + timeout + '" data-id="' + id + '" data-user="' + user_id + '"><div class="col-xs-2">' + name + '</div><div class="col-xs-10"><div class="progress progress-striped active"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="event-bar-' + id + '"><span class="sr-only">0% Complete</span></div></div></div></div';
+	var newHTML = '<div class="row event" id="event_' + id + '" rel="' + timeout + '" data-id="' + id + '" data-user="' + user_id + '"><div class="col-xs-6">' + name + '</div><div class="col-xs-6"><div class="progress progress-striped active"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="event-bar-' + id + '"><span class="sr-only">0% Complete</span></div></div></div></div';
 	
 	$('.ui-container').append(newHTML);
 	
 }
 
+function successEvent(event_id) {
+	$('#event_' + event_id).remove();
+}
+
 function runEvents() {
+	
+	getHealth();
 	
 	$('.event').each(function() {
 		var thisID = $(this).attr('data-id');
@@ -37,12 +43,9 @@ function runEvents() {
 	});	
 }
 
-function tellServerFail(id, user_id) {
+function getHealth() {
 	
-	console.log("Send Fail: " + id);
-	updateBaseHealth(10);
-	
-	var url = "http://37.139.5.63/api/fail/1/1";
+	var url = "http://agilehack.demonic.me/api/health";
 
 	$.ajax({
 	    url: url,
@@ -50,7 +53,25 @@ function tellServerFail(id, user_id) {
 	    dataType: "jsonp",
 	    // work with the response
 	    success: function( response ) {
-	        console.log( response ); // server response
+	       console.log(response);
+	    }
+	});
+	
+}
+
+function tellServerFail(id, user_id) {
+	
+	updateBaseHealth(10);
+	
+	var url = "http://agilehack.demonic.me/api/fail/" + id + "/" + user_id;
+
+	$.ajax({
+	    url: url,
+	    jsonp: "callback",
+	    dataType: "jsonp",
+	    // work with the response
+	    success: function( response ) {
+	        //console.log( response ); // server response
 	    }
 	});
 }

@@ -1,6 +1,6 @@
 <?php 
 class BaseControl extends Eloquent {
-    
+    public $id;
     public $user_id;
     public $name;
     public $value;
@@ -24,7 +24,11 @@ class BaseControl extends Eloquent {
      * @return string
      */
     public function getName(){
-        $this->name = $this->getCatchPhrase();
+        if(empty($this->name)) {
+            $this->name = $this->getCatchPhrase();
+        }
+        
+        return $this->name;
     }
     
     public function getCatchPhrase() {
@@ -52,11 +56,11 @@ class BaseControl extends Eloquent {
                             ->first();
         
         if($controlObject) {
-            return (int)$controlObject->type_id;
+            return $controlObject;
         }
         return false; 
     }
-    
+        
     /**
      * needs to be run after createControl to save to db
      */
@@ -69,7 +73,7 @@ class BaseControl extends Eloquent {
             'value_range' => json_encode(array())
         );
         
-        return DB::table("controls")->insertGetId($control);
+        $this->id = DB::table("controls")->insertGetId($control);
     }
 }
 ?>

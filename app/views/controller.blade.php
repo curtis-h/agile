@@ -23,9 +23,8 @@
 	<div id="topBar">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-3 user-person"><img style="height:60px; margin-top: -8px;" src="{{ $user->picture }}"></div>
-				<div class="col-xs-5 user-person">{{ $user->firstname }}</div>
-  				<div class="col-xs-4 team-health">{{ $base_health }}</div>
+				<div class="col-xs-6 user-person"><img style="height:60px; margin: -8px 15px 0 0;" src="{{ $user->picture }}">{{ $user->firstname }}</div>
+  				<div class="col-xs-6 team-health">{{ $base_health }}</div>
 			</div>
 		</div>
 	</div>
@@ -44,13 +43,18 @@
 			<div class="row">
 			<?php
 			
+			//dd($controls);
+			
+			?>
+			<?php
+			
 			foreach($controls AS $n => $con) {
 				
 				switch($con['controlType']) {
 					case 1:
 						?>
 						<div id="control-dial" class="control-sep">
-							<input type="text" value="75" class="dial" rel="1">
+							<input type="text" value="<?php echo rand(0, 100); ?>" class="dial" rel="1" data-id="{{ $con['id'] }}">
 							<h2>{{ $con['name'] }}</h2>
 						</div>
 						<?php
@@ -59,7 +63,7 @@
 						?>
 						<div id="control-button" class="control-sep" style="display: block;">
 							<div class="form-group">
-								<input type="submit" class="btn btn-danger btn-block" rel="2" value="{{ $con['value'] }}" />
+								<input type="submit" class="btn btn-danger btn-block btn-lg" rel="2" value="{{ $con['value'] }}" data-id="{{ $con['id'] }}" />
 								<h2>{{ $con['name'] }}</h2>
 							</div>
 						</div>
@@ -68,7 +72,7 @@
 					case 3:
 						?>
 						<div id="control-radio" class="control-sep" style="display: block;">
-							<div class="radios" rel="3" style="text-align: center;">
+							<div class="radios" rel="3" style="text-align: center;" data-id="{{ $con['id'] }}">
 							    <input id="option1" name="options" type="radio" class="radios">
 							    <label for="option1">1</label>					 
 							    <input id="option2" name="options" type="radio" class="radios">
@@ -106,28 +110,44 @@
 	<script src="<?php echo asset('game/controllers/knob.js'); ?>"></script>
 	<script src="<?php echo asset('game/controllers/radio.js'); ?>"></script>
 	<script>
-		var UserId = 1;
+		var UserId = {{ $user->id }};
 		
 		$(function() {
 			
 			//-- On Update for the DIAL
 		    $(".dial").knob({
 		    	'release' : function() {
-		    		updateStatus($('.dial').attr('rel'), $('.dial').val())
+		    		updateStatus($('.dial').attr('rel'), $('.dial').val(), $('.dial').attr('data-id'))
 		    	}
 		    });
 		    
 		    //-- On Update for the INPUT
 		    $('.btn-danger').click(function() {
-		    	updateStatus($(this).attr('rel'), 1)
+		    	updateStatus($(this).attr('rel'), 1, $(this).attr('rel'))
 		    });
 		    
 		    //-- On Update for thr RADIOS
 		    $(".radios").radiosToSlider();
 		    $('.slider-level').click(function() {
-		    	updateStatus($('#radios').attr('rel'), $(this).attr('data-radio'))
+		    	updateStatus($('.radios').attr('rel'), $(this).attr('data-radio'), $('.radios').attr('data-id'))
 		    });
 		});
+	</script>
+	
+	<!-- Pusher -->
+	<script src="http://js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
+	<script>
+		var pusher = new Pusher('d87b2847c2e28a530cde');
+    	var channel = pusher.subscribe('roboto_event');
+    	//-- Event Created
+    	channel.bind('event_create', function(data) {
+    		
+    		if (data.show_to == UserID) {
+    			//-- Show to this user
+    			createStatus(data.show_text);
+    		}
+    		
+	    });
 	</script>
 	
 </body>
