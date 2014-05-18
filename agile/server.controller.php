@@ -186,7 +186,7 @@ class ServerController extends BaseController {
     }
     
     public function checkAchievement($user_id, $name, $value){
-        if(in_array($value, array(1, 5, 10, 25, 50)){
+        if(in_array($value, array(1, 5, 10, 25, 50))){
             $achname = $name.' - '.$value;
             $achieve = DB::table("achievements")->where('name', '=', $achname)->first();
             
