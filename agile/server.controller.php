@@ -46,35 +46,46 @@ class ServerController extends BaseController {
      * create a random event assigned to a user
      */
     public function createEvent() {
-        $this->setupPusher();
-        
         // get random user from game
-        
-        $user  = User::orderBy(DB::raw('RAND()'))->first();
-        
-        $event = $this->getRandomEvent($user->id);
-        // push to client
-        // push to display
-        
-        $this->pusher->trigger(
+        $user   = User::orderBy(DB::raw('RAND()'))->first();
+        $event  = $this->getRandomEvent($user->id);
+        // get user to show this event to
+        $showTo = DB::table("users")->select("id")->where('id', '<>', $user->id)->orderBy(DB::raw('RAND()'))->first();
+        $push   = array(
+            'user_id'    => $event->getUserId(),
+            'control_id' => $event->getEventType(),
+            'show_to'    => $showTo->id,
+            'show_text'  => $event->getText()
+        );
+        var_dump($push);
+        // push to client and display
+        $this->getPusher()->trigger(
             Config::get('app.pusher_channel_name'), 
             'event_create', 
-            $event
+            $push
         );
     }
     
     /**
      * used to decide if updated value is correct for event
+     * NOTE - value cant be zero, comes through as null
      */
     public function checkEvent() {
         $user_id    = Route::input('user_id');
         $control_id = Route::input('control_id');
         $value      = Route::input('value');
         
-        
-        error_log("USER: {$user_id}, CONTROL: {$control_id}, VALUE: {$value}");
         // run check for this user and this control
-        // if success needs to tell main screen
+        if($event_id = BaseEvent::checkEvent($user_id, $control_id, $value)) {
+            // TODO - success needs to mark event as completed
+            
+            // if success needs to tell main screen
+            $this->getPusher()->trigger(
+                Config::get('app.pusher_channel_name'), 
+                'event_success', 
+                $event_id
+             );
+        }
     }
     
     
@@ -113,7 +124,14 @@ class ServerController extends BaseController {
             Config::get('app.pusher_app_secret'), 
             Config::get('app.pusher_app_id')
         );
+    }
+    
+    protected function getPusher() {
+        if(empty($this->pusher)) {
+            $this->setupPusher();
+        }
         
+        return $this->pusher;
     }
     
     /**
@@ -136,15 +154,11 @@ class ServerController extends BaseController {
     protected function getRandomEvent($user_id=false) {
         $event = false;
         
-        
         if(!empty($user_id)) {
             // get random control based on user
             // create event with random value if applicable
             $control_type   = BaseControl::getRandomUserControl($user_id);
-            
-            $eventModelName = $this->eventTypes[$control_type].'Event';
-            
-            $event = new $eventModelName(false, $user_id);
+            $event          = new BaseEvent(false, $user_id, $control_type);
         }
         
         return $event;

@@ -14,13 +14,13 @@ class BaseEvent extends Eloquent {
     /*
      * C'tor
      */
-    public function __construct($id=0,$user_id=0) {
+    public function __construct($id=0,$user_id=0, $control_type=0) {
         // set up randomness
     	if($id) {
     		return $this->getEvent($id);
     	}
     	else {
-    		return $this->createEvent($user_id);
+    		return $this->createEvent($user_id, $control_type);
     	}
     }
 
@@ -30,22 +30,18 @@ class BaseEvent extends Eloquent {
     	}
     }
 
-    public function createEvent($user_id=0){
-
+    public function createEvent($user_id=0, $control_type=0){
+        $this->user_id   = $user_id;
+        $this->eventType = $control_type;
+        
     	$event = array(
     		'type' => $this->getEventType(),
     		'name' => $this->getName(),
     		'success' => $this->getSuccessValue(),
-    		'user_id' => $user_id
+    		'user_id' => $this->getUserId()
     	);
         
-        $a = DB::table("events")->insertGetId(
-            $event
-        );
-        
-    	//$a = $this->create($event);
-        //var_dump($event); exit();
-        return $a;
+        return DB::table("events")->insertGetId($event);
     }
 
     public function getEvent($id=0){
@@ -75,9 +71,32 @@ class BaseEvent extends Eloquent {
     public function getEventType(){
     	return $this->eventType;
     }
+    
+    public function getUserId(){
+    	return $this->user_id;
+    }
 
+    public function getText() {
+        
+    }
+    
     public function deleteEvent($id=0){
     	return $this->delete($id);
+    }
+    
+    /**
+     * check to see if an event has been completed
+     * @param unknown_type $user_id
+     * @param unknown_type $control_id
+     * @param unknown_type $value
+     */
+    public static function checkEvent($user_id, $control_id, $value) {
+        return DB::table("events")
+            ->select("id")
+            ->where("user_id", $user_id)
+            ->where("type", $control_id)
+            ->where("success", $value)
+            ->first();
     }
 }
 

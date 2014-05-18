@@ -23,6 +23,11 @@ Route::any('front', 	'FrontSiteController@showUI');
 // Misc
 Route::any('api/createEvent', 'ServerController@createEvent');
 
+//* TESTING
+ 
+Route::any('checkUserControls/{user_id}', 'ServerController@createUserControls');
+Route::any('checkEvents', 'ServerController@createEvent');
+//*/
 Route::group(array('before' => 'auth'), function() {
 	
 	//-- API Routes
