@@ -27,6 +27,8 @@ Route::any('api/createEvent', 'ServerController@createEvent');
  
 Route::any('checkUserControls/{user_id}', 'ServerController@createUserControls');
 Route::any('checkEvents', 'ServerController@createEvent');
+
+Route::any('checkUpdate/{user_id}/{control_id}/{$value}', 'ServerController@checkEvent');
 //*/
 Route::group(array('before' => 'auth'), function() {
     
@@ -87,6 +89,7 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
 				$user->lastname = $userProfile->lastName;
 				$user->picture = $userProfile->photoURL;
 				$user->twofac = true;
+				$user->phone = '12';
 				$user->save();
 		}else{			
 			$details = array(
@@ -95,6 +98,8 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
 				'lastname' => $userProfile->lastName,	
 				'fb_id' => $userProfile->identifier,	
 				'picture' => $userProfile->photoURL,	
+			    'phone' => '12',
+			    'twofac' => true,
 			);
 			
 			$user = User::create($details);

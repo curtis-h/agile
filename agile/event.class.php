@@ -14,13 +14,13 @@ class BaseEvent extends Eloquent {
     /*
      * C'tor
      */
-    public function __construct($id=0,$user_id=0, $control_type=0, $name="") {
+    public function __construct($id=0,$user_id=0, $control_type=0, $name="", $success=1) {
         // set up randomness
     	if($id) {
     		return $this->getEvent($id);
     	}
     	else {
-    		return $this->createEvent($user_id, $control_type, $name);
+    		return $this->createEvent($user_id, $control_type, $name, $success);
     	}
     }
 
@@ -30,11 +30,11 @@ class BaseEvent extends Eloquent {
     	}
     }
 
-    public function createEvent($user_id=0, $control_type=0, $name=""){
+    public function createEvent($user_id=0, $control_type=0, $name="", $success=1){
         $this->user_id   = $user_id;
         $this->eventType = $control_type;
         $this->name      = $name;
-        $this->success   = $this->getSuccessValue();
+        $this->success   = $success;
         
     	$event = array(
     		'type' => $this->getEventType(),
@@ -65,10 +65,6 @@ class BaseEvent extends Eloquent {
     }
 
     public function getSuccessValue(){
-        if(empty($this->success)) {
-            $this->success = rand(0,$this->successValueMax);
-        }
-        
         return $this->success;
     }
 
