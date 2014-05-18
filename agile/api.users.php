@@ -6,6 +6,7 @@ public $restful = true;
 
 	private function user_json($user){
 		$json = new stdClass();
+		$json->id = $user->id;	
 		$json->firstname = $user->firstname;	
 		$json->lastname = $user->lastname;	
 		$json->picture = $user->picture;
@@ -17,6 +18,16 @@ public $restful = true;
 			$achivement->name = $ach->name;
 			$achivement->date = 'soon';
 			$json->achievements[] = $achivement;
+		}
+		
+		$json->stats = array();
+		
+		foreach($user->stats as $stat){
+			$newstat = new stdClass();
+			
+			$newstat->name = $stat->name;
+			$newstat->value = $stat->value;
+			$json->stats[] = $newstat;
 		}
 		
 		return $json;

@@ -37,3 +37,15 @@ function createStatus(message) {
 	//-- $('#mm').slabText();
 	
 }
+
+var profileclicks = 0;
+$('.user-person').click(function(){
+	profileclicks++;
+	
+	if(profileclicks >= 3){
+		$('#mainstyle').attr('href','/game/bw.css');
+	}
+});
+$('#panda').click(function(){
+	$('#panda').hide();
+});
