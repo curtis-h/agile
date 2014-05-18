@@ -63,7 +63,7 @@ function tellServerFail(id, user_id) {
 	
 	updateBaseHealth(10);
 	
-	var url = "http://agilehack.demonic.me/api/fail/1/1";
+	var url = "http://agilehack.demonic.me/api/fail/" + id + "/" + user_id;
 
 	$.ajax({
 	    url: url,

@@ -54,7 +54,7 @@
 					case 1:
 						?>
 						<div id="control-dial" class="control-sep">
-							<input type="text" value="<?php echo rand(0, 100); ?>" class="dial" rel="1">
+							<input type="text" value="<?php echo rand(0, 100); ?>" class="dial" rel="1" data-id="{{ $con['id'] }}">
 							<h2>{{ $con['name'] }}</h2>
 						</div>
 						<?php
@@ -63,7 +63,7 @@
 						?>
 						<div id="control-button" class="control-sep" style="display: block;">
 							<div class="form-group">
-								<input type="submit" class="btn btn-danger btn-block btn-lg" rel="2" value="{{ $con['value'] }}" />
+								<input type="submit" class="btn btn-danger btn-block btn-lg" rel="2" value="{{ $con['value'] }}" data-id="{{ $con['id'] }}" />
 								<h2>{{ $con['name'] }}</h2>
 							</div>
 						</div>
@@ -72,7 +72,7 @@
 					case 3:
 						?>
 						<div id="control-radio" class="control-sep" style="display: block;">
-							<div class="radios" rel="3" style="text-align: center;">
+							<div class="radios" rel="3" style="text-align: center;" data-id="{{ $con['id'] }}">
 							    <input id="option1" name="options" type="radio" class="radios">
 							    <label for="option1">1</label>					 
 							    <input id="option2" name="options" type="radio" class="radios">
@@ -117,19 +117,19 @@
 			//-- On Update for the DIAL
 		    $(".dial").knob({
 		    	'release' : function() {
-		    		updateStatus($('.dial').attr('rel'), $('.dial').val())
+		    		updateStatus($('.dial').attr('rel'), $('.dial').val(), $('.dial').attr('data-id'))
 		    	}
 		    });
 		    
 		    //-- On Update for the INPUT
 		    $('.btn-danger').click(function() {
-		    	updateStatus($(this).attr('rel'), 1)
+		    	updateStatus($(this).attr('rel'), 1, $(this).attr('rel'))
 		    });
 		    
 		    //-- On Update for thr RADIOS
 		    $(".radios").radiosToSlider();
 		    $('.slider-level').click(function() {
-		    	updateStatus($('#radios').attr('rel'), $(this).attr('data-radio'))
+		    	updateStatus($('.radios').attr('rel'), $(this).attr('data-radio'), $('.radios').attr('data-id'))
 		    });
 		});
 	</script>

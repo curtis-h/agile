@@ -135,6 +135,7 @@ class ServerController extends BaseController {
         $user_id    = Route::input('user_id');
         $control_id = Route::input('control_id');
         $value      = Route::input('value');
+        $cid        = Route::input('cid');
         
         // run check for this user and this control
         if($event_id = BaseEvent::checkEvent($user_id, $control_id, $value)) {

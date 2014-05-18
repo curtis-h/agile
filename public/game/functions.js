@@ -5,9 +5,9 @@
  * value   -> What value we are passing the system
 * 371f816f72fd31135e71dee1a1eb8ab0
 */
-function updateStatus(control, value) {
+function updateStatus(control, value, control_id) {
 
-	var url = "http://agilehack.demonic.me/api/update/" + UserId + "/" + control + "/" + value;
+	var url = "http://agilehack.demonic.me/api/update/" + UserId + "/" + control + "/" + value + "/" + control_id;
 	
 	$.ajax({
 	    url: url,
