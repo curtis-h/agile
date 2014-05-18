@@ -19,10 +19,15 @@
 <body id="login">
 
 	<div class="container">
+		<div class="row text-center">
+
+			<img width="200px" src="http://www.yourplaceinvermont.com/wp-content/uploads/2012/10/easter-egg-hunt-okemo-mountain-ludlow-vermont.jpg" />
+
+		</div>
 		<div class="row">
 			
 			<a href='<?php echo url('replay/'); ?>'>
-				<div class="login-facebook">Replay</div>
+				<div class="login-facebook text-center">Replay</div>
 			</a>
 			
 		</div>
