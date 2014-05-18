@@ -15,11 +15,12 @@ body {
 	background-color: #F2F4F8;
 	-webkit-font-smoothing: antialiased;
 	line-height: 1.53846154;
+	background: #84e38d url('http://agilehack.demonic.me/ui/top_bg.png') repeat-x 0px 80px;
 }
 
 /*# Top Bar #*/
 #topBar {
-	background: #34495e;
+	background: #70c4cc;
 	color: #FFF;
 	height: 80px;
 }
@@ -38,4 +39,18 @@ body {
 
 .ui-container {
 	margin-top: 40px;
+}
+
+.progress_areas {
+	margin: 100px 0 0 40px;
+}
+
+.progress_areas ul {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.newc {
+	margin: 100px 0 0 0 ;
 }
