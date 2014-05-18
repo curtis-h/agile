@@ -25,6 +25,8 @@ Route::get('restart', 'ServerController@restartGame');
 
 //-- Main UI
 Route::any('front',     'FrontSiteController@showUI');
+Route::any('api/health',     'ServerController@getHealth');
+Route::any('complete',     'FrontSiteController@complete');
 
 // Misc
 Route::any('api/createEvent', 'ServerController@createEvent');
@@ -40,7 +42,7 @@ Route::group(array('before' => 'auth'), function() {
     
     //-- API Routes
     Route::any('api/update/{user_id}/{control_id}/{value}/{cid}', 'ServerController@checkEvent');
-    Route::any('api/fail/{event_id}', 'ServerController@failEvent');
+    Route::any('api/fail/{event_id}/{user_id}', 'ServerController@failEvent');
     
     //-- Viewing Routes
     Route::get('controls',      'FrontSiteController@showController');

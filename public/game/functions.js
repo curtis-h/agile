@@ -34,6 +34,6 @@ function createStatus(message) {
 	$('#mm').html(message);
 	//-- Full screen
 	$('#messageHero').fadeIn();
-	$('#mm').slabText();
+	//-- $('#mm').slabText();
 	
 }

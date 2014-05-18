@@ -73,15 +73,15 @@
 						?>
 						<div id="control-radio" class="control-sep" style="display: block;">
 							<div class="radios" rel="3" style="text-align: center;" data-id="{{ $con['id'] }}">
-							    <input id="option1" name="options" type="radio" class="radios">
+							    <input id="1" name="options" type="radio" class="radios">
 							    <label for="option1">1</label>					 
-							    <input id="option2" name="options" type="radio" class="radios">
+							    <input id="2" name="options" type="radio" class="radios">
 							    <label for="option2">2</label>					 
-							    <input id="option3" name="options" type="radio" checked class="radios">
+							    <input id="3" name="options" type="radio" checked class="radios">
 							    <label for="option3">3</label>					 
-							    <input id="option4" name="options" type="radio" class="radios">
+							    <input id="4" name="options" type="radio" class="radios">
 							    <label for="option4">4</label>					 
-							    <input id="option5" name="options" type="radio" class="radios">
+							    <input id="5" name="options" type="radio" class="radios">
 							    <label for="option5">5<label>					 
 							</div>
 							<h2>{{ $con['name'] }}</h2>
@@ -123,7 +123,7 @@
 		    
 		    //-- On Update for the INPUT
 		    $('.btn-danger').click(function() {
-		    	updateStatus($(this).attr('rel'), 1, $(this).attr('rel'))
+		    	updateStatus($(this).attr('rel'), 1, $(this).attr('data-id'))
 		    });
 		    
 		    //-- On Update for thr RADIOS
@@ -131,6 +131,11 @@
 		    $('.slider-level').click(function() {
 		    	updateStatus($('.radios').attr('rel'), $(this).attr('data-radio'), $('.radios').attr('data-id'))
 		    });
+		    
+		    $('#mm').click(function() {
+		    	$('#messageHero').hide();	
+		    });
+		    
 		});
 	</script>
 	
@@ -142,7 +147,9 @@
     	//-- Event Created
     	channel.bind('event_create', function(data) {
     		
-    		if (data.show_to == UserID) {
+    		console.log(data);
+    		
+    		if (data.show_to == UserId) {
     			//-- Show to this user
     			createStatus(data.show_text);
     		}

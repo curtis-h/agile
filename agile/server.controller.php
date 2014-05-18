@@ -137,8 +137,12 @@ class ServerController extends BaseController {
         $value      = Route::input('value');
         $cid        = Route::input('cid');
         
+        if(empty($value)) {
+            $value = "0";
+        }
+        
         // run check for this user and this control
-        if($event_id = BaseEvent::checkEvent($user_id, $control_id, $value)) {
+        if($event_id = BaseEvent::checkEvent($cid, $control_id, $value)) {
             // TODO - success needs to mark event as completed
             
             DB::table("events")->where("id", $event_id)->delete();

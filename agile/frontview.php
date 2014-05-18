@@ -39,4 +39,9 @@ class FrontSiteController extends BaseController {
     	return View::make('ui');
     }
     
+    public function complete() {
+    	
+    	return View::make('complete');
+    }
+    
 }

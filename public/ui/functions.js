@@ -16,11 +16,12 @@ function createEvent(name, timeout, id, user_id) {
 
 function successEvent(event_id) {
 	$('#event_' + event_id).remove();
+	console.log("SUCCESS > " + event_id );
 }
 
 function runEvents() {
 	
-	getHealth();
+	//getHealth();
 	
 	$('.event').each(function() {
 		var thisID = $(this).attr('data-id');
@@ -82,4 +83,7 @@ function updateBaseHealth(amount) {
 	Basehealth = Basehealth - amount;
 	$('.base-health').html(Basehealth);
 	
+	if (Basehealth < 5) {
+		window.location = "http://agilehack.demonic.me/complete";
+	}
 }
