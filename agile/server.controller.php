@@ -155,6 +155,7 @@ class ServerController extends BaseController {
             }else{
                 $prev->value++;
                 DB::table('user_stats')->where('id', $prev->id)->update(array('value' => $prev->value));   
+                $this->checkAchievement($user_id, 'Completed Events', $prev->value);
             }
             
             DB::table("events")->where("id", $event_id)->delete();
@@ -182,6 +183,28 @@ class ServerController extends BaseController {
         $gameModel->removeHealth(Game::getCurrentGame(),10);
 
         DB::table("events")->where("id", $event_id)->delete();
+    }
+    
+    public function checkAchievement($user_id, $name, $value){
+        if(in_array($value, array(1, 5, 10, 25, 50)){
+            $achname = $name.' - '.$value;
+            $achieve = DB::table("achievements")->where('name', '=', $achname)->first();
+            
+            if(!$achieve){
+                $newachievement = array(
+                    "name" => $achname
+                );
+                DB::table("achievements")->insertGetId($newachievement);
+                $achieve = DB::table("achievements")->where('name', '=', $achname)->first();
+            }
+            
+            $userach = array(
+                "user_id" => $user_id,
+                "achievement_id" => $achieve->id
+            );
+            DB::table("achievements_users")->insertGetId($userach);
+            
+        }
     }
     
     /**
