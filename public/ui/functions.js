@@ -100,6 +100,6 @@ function updateBaseHealth(amount) {
 	        datatype: 'jsonp',
 	    });
 	    
-		window.location = "http://agilehack.demonic.me/ended";
+		window.location = "http://agilehack.demonic.me/gameover";
 	}
 }

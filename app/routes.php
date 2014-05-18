@@ -33,6 +33,7 @@ Route::get('replay', 'ServerController@replayGame');
 Route::any('front',     'FrontSiteController@showUI');
 Route::any('api/health',     'ServerController@getHealth');
 Route::any('complete',     'FrontSiteController@complete');
+Route::any('gameover',     'FrontSiteController@gameover');
 
 // Misc
 Route::any('api/createEvent', 'ServerController@createEvent');
