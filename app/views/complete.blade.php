@@ -21,7 +21,7 @@
 	<div class="container">
 		<div class="row text-center">
 
-			<img width="200px" src="http://www.yourplaceinvermont.com/wp-content/uploads/2012/10/easter-egg-hunt-okemo-mountain-ludlow-vermont.jpg" />
+			<img width="200px" id="random-picture" src="http://www.yourplaceinvermont.com/wp-content/uploads/2012/10/easter-egg-hunt-okemo-mountain-ludlow-vermont.jpg" />
 
 		</div>
 		<div class="row">
@@ -36,6 +36,23 @@
 	<!-- Bootstrap JS -->
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+	<script>
+		function randomImage() {
+
+			var imageArray = [
+				"http://www.yourplaceinvermont.com/wp-content/uploads/2012/10/easter-egg-hunt-okemo-mountain-ludlow-vermont.jpg",
+				"http://media.giphy.com/media/mql4KQroAI2T6/giphy.gif",
+				"/ui/fatpanda.jpg"
+				];
+
+			var imageSelected =Math.floor(Math.random() * imageArray.length);
+			$('#random-picture').attr('src',imageArray[imageSelected]);
+
+			setTimeout(randomImage,1000);
+		}
+		setTimeout(randomImage,2000);
+	</script>
 	
 </body>
 </html>
