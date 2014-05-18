@@ -84,6 +84,11 @@ function updateBaseHealth(amount) {
 	$('.base-health').html(Basehealth);
 	
 	if (Basehealth < 5) {
+	    $.ajax({
+	        url:'http://agilehack.demonic.me/forceClientEnd',
+	        datatype: 'jsonp',
+	    });
+	    
 		window.location = "http://agilehack.demonic.me/complete";
 	}
 }

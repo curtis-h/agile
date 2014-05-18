@@ -42,6 +42,8 @@ Route::any('checkEvents', 'ServerController@createEvent');
 Route::any('checkUpdate/{user_id}/{control_id}/{$value}', 'ServerController@checkEvent');
 //*/
 
+Route::any('forceClientEnd', 'ServerController@forceClientEnd');
+
 Route::group(array('before' => 'auth'), function() {
     
     //-- API Routes

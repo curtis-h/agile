@@ -187,6 +187,14 @@ class ServerController extends BaseController {
         return $controls;
     }
     
+    public function forceClientEnd() {
+        $this->getPusher()->trigger(
+            Config::get('app.pusher_channel_name'), 
+            'event_clientEnd', 
+            "1"
+        );
+    }
+    
     /**
      * create the pusher connection
      */

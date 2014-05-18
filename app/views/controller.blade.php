@@ -147,14 +147,16 @@
     	//-- Event Created
     	channel.bind('event_create', function(data) {
     		
-    		console.log(data);
-    		
     		if (data.show_to == UserId) {
     			//-- Show to this user
     			createStatus(data.show_text);
     		}
     		
 	    });
+
+        channel.bind('event_clientEnd', function(data) {
+            window.location = '/complete';
+        });
 	</script>
 	
 </body>
