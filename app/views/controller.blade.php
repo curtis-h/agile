@@ -134,5 +134,21 @@
 		});
 	</script>
 	
+	<!-- Pusher -->
+	<script src="http://js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
+	<script>
+		var pusher = new Pusher('d87b2847c2e28a530cde');
+    	var channel = pusher.subscribe('roboto_event');
+    	//-- Event Created
+    	channel.bind('event_create', function(data) {
+    		
+    		if (data.show_to == UserID) {
+    			//-- Show to this user
+    			createStatus(data.show_text);
+    		}
+    		
+	    });
+	</script>
+	
 </body>
 </html>

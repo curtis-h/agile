@@ -14,7 +14,13 @@ function createEvent(name, timeout, id, user_id) {
 	
 }
 
+function successEvent(event_id) {
+	$('#event_' + event_id).remove();
+}
+
 function runEvents() {
+	
+	getHealth();
 	
 	$('.event').each(function() {
 		var thisID = $(this).attr('data-id');
@@ -37,9 +43,24 @@ function runEvents() {
 	});	
 }
 
+function getHealth() {
+	
+	var url = "http://agilehack.demonic.me/api/health";
+
+	$.ajax({
+	    url: url,
+	    jsonp: "callback",
+	    dataType: "jsonp",
+	    // work with the response
+	    success: function( response ) {
+	       console.log(response);
+	    }
+	});
+	
+}
+
 function tellServerFail(id, user_id) {
 	
-	console.log("Send Fail: " + id);
 	updateBaseHealth(10);
 	
 	var url = "http://agilehack.demonic.me/api/fail/1/1";
@@ -50,7 +71,7 @@ function tellServerFail(id, user_id) {
 	    dataType: "jsonp",
 	    // work with the response
 	    success: function( response ) {
-	        console.log( response ); // server response
+	        //console.log( response ); // server response
 	    }
 	});
 }

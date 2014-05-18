@@ -1,6 +1,6 @@
 <?php 
 class BaseControl extends Eloquent {
-    
+    public $id;
     public $user_id;
     public $name;
     public $value;
@@ -73,7 +73,7 @@ class BaseControl extends Eloquent {
             'value_range' => json_encode(array())
         );
         
-        return DB::table("controls")->insertGetId($control);
+        $this->id = DB::table("controls")->insertGetId($control);
     }
 }
 ?>
