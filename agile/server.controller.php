@@ -279,4 +279,12 @@ class ServerController extends BaseController {
         }
         return Redirect::to("social");
     }
+
+    public function endGame() {
+        $gameModel = new Game();
+        if(!Game::getCurrentGame()) {
+            $gameModel->createGame();
+        }
+        return Redirect::to("front");
+    }
 }

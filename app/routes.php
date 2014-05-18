@@ -20,6 +20,9 @@ Route::get('start', 'ServerController@createGame');
 //-- Stops the game
 Route::get('stop', 'ServerController@stopGame');
 
+//-- End the game
+Route::get('ended', 'ServerController@endGame');
+
 //-- Restart the game
 Route::get('restart', 'ServerController@restartGame');
 
