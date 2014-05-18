@@ -86,7 +86,7 @@ Route::get('social/{action?}', array("as" => "hybridauth", function($action = ""
 				$user->firstname = $userProfile->firstName;
 				$user->lastname = $userProfile->lastName;
 				$user->picture = $userProfile->photoURL;
-				$user->twofac = false;
+				$user->twofac = true;
 				$user->save();
 		}else{			
 			$details = array(
