@@ -92,14 +92,15 @@ class BaseEvent extends Eloquent {
      * @param unknown_type $control_id
      * @param unknown_type $value
      */
-    public static function checkEvent($user_id, $control_id, $value) {
+    public static function checkEvent($cid, $control_id, $value) {
         return DB::table("events")
             ->select("id")
-            ->where("user_id", $user_id)
+            ->where("control_id", $cid)
             ->where("type", $control_id)
             ->where("success", $value)
             ->first()
             ->id;
+            
     }
 }
 

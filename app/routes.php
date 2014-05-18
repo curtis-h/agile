@@ -20,11 +20,20 @@ Route::get('start', 'ServerController@createGame');
 //-- Stops the game
 Route::get('stop', 'ServerController@stopGame');
 
+//-- End the game
+Route::get('ended', 'ServerController@endGame');
+
 //-- Restart the game
 Route::get('restart', 'ServerController@restartGame');
 
+//-- Restart the game
+Route::get('replay', 'ServerController@replayGame');
+
 //-- Main UI
 Route::any('front',     'FrontSiteController@showUI');
+Route::any('api/health',     'ServerController@getHealth');
+Route::any('complete',     'FrontSiteController@complete');
+Route::any('gameover',     'FrontSiteController@gameover');
 
 // Misc
 Route::any('api/createEvent', 'ServerController@createEvent');
@@ -37,11 +46,13 @@ Route::any('checkEvents', 'ServerController@createEvent');
 Route::any('checkUpdate/{user_id}/{control_id}/{$value}', 'ServerController@checkEvent');
 //*/
 
+Route::any('forceClientEnd', 'ServerController@forceClientEnd');
+
 Route::group(array('before' => 'auth'), function() {
     
     //-- API Routes
     Route::any('api/update/{user_id}/{control_id}/{value}/{cid}', 'ServerController@checkEvent');
-    Route::any('api/fail/{event_id}', 'ServerController@failEvent');
+    Route::any('api/fail/{event_id}/{user_id}', 'ServerController@failEvent');
     
     //-- Viewing Routes
     Route::get('controls',      'FrontSiteController@showController');

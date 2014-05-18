@@ -27,10 +27,26 @@
 		</div>
 	</div>
 	
-	<div class="container ui-container">
+	<div class="container">
 		<div class="row">
-					
-		</div>
+	    	<div class="col-sm-10">
+	        
+	            <div class="progress_areas">
+	                <ul>
+	                    
+	                </ul>
+	            </div>
+	
+	        </div>
+	        
+	        <div class="col-sm-2">
+	        
+	        	<div class="newc">
+	           		<img src='<?php echo asset('ui/building.png'); ?>' width="100%">
+	            </div>
+	        
+	        </div>
+	    </div>
 	</div>
 	
 	<!-- Bootstrap JS -->
@@ -53,7 +69,7 @@
 	    	createEvent(data.show_text + '> ' + data.cid, 10, data.event_id, data.user_id);
 	    });
 	    channel.bind('event_success', function(data) {
-	    	successEvent(data.event_id);
+	    	successEvent(data);
 	    });
 	</script>
 	
