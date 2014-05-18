@@ -43,6 +43,11 @@
 			<div class="row">
 			<?php
 			
+			dd($controls);
+			
+			?>
+			<?php
+			
 			foreach($controls AS $n => $con) {
 				
 				switch($con['controlType']) {
@@ -105,7 +110,7 @@
 	<script src="<?php echo asset('game/controllers/knob.js'); ?>"></script>
 	<script src="<?php echo asset('game/controllers/radio.js'); ?>"></script>
 	<script>
-		var UserId = 1;
+		var UserId = {{ $user->id }};
 		
 		$(function() {
 			

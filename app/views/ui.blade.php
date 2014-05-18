@@ -53,7 +53,8 @@
 	    	createEvent(data.show_text, 10, data.event_id, data.user_id);
 	    });
 	    channel.bind('event_success', function(data) {
-	    	successEvent(data.event_id);
+	    	//--successEvent(data.event_id);
+	    	console.log("Success - " + data.event_id);
 	    });
 	</script>
 	
