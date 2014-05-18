@@ -12,6 +12,24 @@ class ServerController extends BaseController {
         'Slider',
     );
     
+    protected $eventTexts = array(
+        array(
+            'Change the',
+            'Rotate the',
+            'Move the'
+        ),
+        array(
+            'Turn on',
+            'Press',
+            'Combobulate',
+        ),
+        array(
+            'Change the',
+            'Slide the',
+            'Move the'
+        ),
+    );
+    
     protected $pusher;
 
     /**
@@ -41,21 +59,43 @@ class ServerController extends BaseController {
     public function getUsers($game_id=false) {
         return UserGame::getGameUsers($game_id);
     }
+    
+    public function getTickerText($event) {
+        $values = $this->eventTexts[$event->getEventType()-1];
+        $rand   = rand(0, count($values)-1);
+        $text   = '';
+        
+        switch($event->getEventType()) {
+            case 2:
+                $text = "{$values[$rand]} the {$event->name}";
+                break;
+            case 1:
+            case 3:
+            default:
+                $text = "{$values[$rand]} {$event->name} to {$event->success}";
+                break;
+        }
+        
+        return $text;
+    }
 
     /**
      * create a random event assigned to a user
      */
     public function createEvent() {
+        
         // get random user from game
         $user   = User::orderBy(DB::raw('RAND()'))->first();
         $event  = $this->getRandomEvent($user->id);
+        
         // get user to show this event to
         $showTo = DB::table("users")->select("id")->where('id', '<>', $user->id)->orderBy(DB::raw('RAND()'))->first();
         $push   = array(
+            'event_id'   => $event->id,
             'user_id'    => $event->getUserId(),
             'control_id' => $event->getEventType(),
             'show_to'    => $showTo->id,
-            'show_text'  => $event->getText()
+            'show_text'  => $this->getTickerText($event)
         );
         
         // push to client and display
@@ -157,8 +197,9 @@ class ServerController extends BaseController {
         if(!empty($user_id)) {
             // get random control based on user
             // create event with random value if applicable
-            $control_type   = BaseControl::getRandomUserControl($user_id);
-            $event          = new BaseEvent(false, $user_id, $control_type);
+            $control        = BaseControl::getRandomUserControl($user_id);
+            $control_type   = (int)$control->type_id;
+            $event          = new BaseEvent(false, $user_id, $control_type, $control->name);
         }
         
         return $event;

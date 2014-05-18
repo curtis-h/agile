@@ -24,7 +24,11 @@ class BaseControl extends Eloquent {
      * @return string
      */
     public function getName(){
-        $this->name = $this->getCatchPhrase();
+        if(empty($this->name)) {
+            $this->name = $this->getCatchPhrase();
+        }
+        
+        return $this->name;
     }
     
     public function getCatchPhrase() {
@@ -52,11 +56,11 @@ class BaseControl extends Eloquent {
                             ->first();
         
         if($controlObject) {
-            return (int)$controlObject->type_id;
+            return $controlObject;
         }
         return false; 
     }
-    
+        
     /**
      * needs to be run after createControl to save to db
      */

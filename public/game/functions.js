@@ -7,7 +7,7 @@
 */
 function updateStatus(control, value) {
 
-	var url = "http://37.139.5.63/api/update/" + UserId + "/" + control + "/" + value;
+	var url = "http://agilehack.demonic.me/api/update/" + UserId + "/" + control + "/" + value;
 	
 	$.ajax({
 	    url: url,
