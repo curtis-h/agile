@@ -6,7 +6,6 @@ class SliderControl extends BaseControl {
         $this->getName();
         $this->maxValue    = 5;
         $this->controlType = 3;
-        // save to db
     }
 }
 ?>

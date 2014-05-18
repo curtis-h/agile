@@ -8,11 +8,13 @@ class BaseControl extends Eloquent {
     public $controlType;
 
     protected $table = "controls";
+    protected $fillable = array('user_id', 'game_id', 'type_id', 'name', 'value_range');
 
     public function __construct($user_id=false) {
         if($user_id) {
             $this->user_id = $user_id;
             $this->createControl();
+            $this->saveControl();
         }
     }
     
@@ -35,25 +37,39 @@ class BaseControl extends Eloquent {
         return $this::find($id);
     }
 
+    /**
+     * to be inherited
+     */
     public function createControl(){
-        $control = array(
-                'user_id'     => $this->user_id,
-                'game_id'     => Game::getCurrentGame(),
-                'type_id'     => $this->controlType,
-                'name'        => $this->name,
-                'value_range' => json_encode(array())
-            );
-        return $this::create($control);
 
     }
 
     public static function getRandomUserControl($user_id){
-        $controlObject = $this::where('user_id',$user_id)
-            ->where('game_id',Game::getCurrentGame());
+        $controlObject = DB::table("controls")
+                            ->where('user_id',$user_id)
+                            ->where('game_id',Game::getCurrentGame())
+                            ->orderBy(DB::raw('RAND()'))
+                            ->first();
+        
         if($controlObject) {
             return (int)$controlObject->type_id;
         }
         return false; 
+    }
+    
+    /**
+     * needs to be run after createControl to save to db
+     */
+    protected function saveControl() {
+        $control = array(
+            'user_id'     => $this->user_id,
+            'game_id'     => Game::getCurrentGame(),
+            'type_id'     => $this->controlType,
+            'name'        => $this->name,
+            'value_range' => json_encode(array())
+        );
+        
+        return DB::table("controls")->insertGetId($control);
     }
 }
 ?>

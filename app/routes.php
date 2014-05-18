@@ -20,6 +20,11 @@ Route::get('start', 'ServerController@createGame');
 Route::any('api/update/{user_id}/{control_id}/{value}', 'ServerController@checkEvent');
 Route::any('api/fail/{user_id}/{value}', 'ServerController@failEvent');
 
+//* TESTING
+ 
+Route::any('checkUserControls/{user_id}', 'ServerController@createUserControls');
+Route::any('checkEvents', 'ServerController@createEvent');
+//*/
 Route::group(array('before' => 'auth'), function() {
 	
 	//-- API Routes
