@@ -26,6 +26,8 @@ Route::get('restart', 'ServerController@restartGame');
 //-- Main UI
 Route::any('front',     'FrontSiteController@showUI');
 
+Route::any('/api/health', 'ServerController@getHealth');
+
 // Misc
 Route::any('api/createEvent', 'ServerController@createEvent');
 

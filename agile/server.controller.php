@@ -243,4 +243,15 @@ class ServerController extends BaseController {
         
         return $control;
     }
+
+    public function getHealth(){
+        $gameModel = new Game();
+        $health = $gameModel->getHealth(Game::getCurrentGame());
+        echo json_encode(
+                array(
+                    'alive' => ($health>0)?true:false,
+                    'health' => $health
+                    )
+            );
+    }
 }
